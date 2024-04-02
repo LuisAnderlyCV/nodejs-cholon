@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="/src/views/img/icono.ico">
+    <title>VENTAS</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/src/boostrapdiseñoadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Custom styles for this template-->
+    <link href="/src/boostrapdiseñoadmin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/src/views/css/registrar.css">
+    <link rel="stylesheet" href="/src/views/css/estiloperfiles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <%- include('../plantilla/listamodulos') %>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <%- include('../plantilla/navbar') %>
+                        <!-- End of Topbar -->
+
+
+                        <div class="col-md-12">
+                            <div class="input-group mb-3 d-flex justify-content-center">
+                                <h2 class="text-center">VISUALIZAR VENTAS</h2>
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="busqueda"
+                                    placeholder="  🔍︎    Buscar Ventas..."
+                                    oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                        </div>
+                        <h1>VENTAS AL CONTADO</h1>
+                        <table id="ventaTable" class="table table-striped table-bordered">
+
+                            <div class="custom-select-container">
+                                <select id="selectOption1"
+                                    class="custom-select custom-select-sm form-control form-control-sm custom-short-select"
+                                    style="width: auto;">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+
+                            <thead>
+                                <tr>
+                                    <th>ID Venta</th>
+                                    <th>Metodo Pago</th>
+                                    <th>Fecha Venta</th>
+                                    <th>Hora Venta</th>
+                                    <th>Tipo Comprobante</th>
+                                    <th>Documento</th>
+                                    <th>Cliente</th>
+                                    <th>Total Venta</th>
+                                    <th>Monto Cancelado</th>
+                                    <th>Vuelto</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% contado.forEach(function(venta) { %>
+                                    <tr>
+                                        <td>
+                                            <%= venta.idventa %>
+                                        </td>
+                                        <td>
+                                            <%= venta.metodopago %>
+                                        </td>
+                                        <td>
+                                            <%= new Date(venta.fechaventa).toLocaleDateString('es-ES', { weekday: 'long'
+                                                , year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                                        </td>
+                                        <td>
+                                            <%=venta.horaventa_12h %>
+                                        </td>
+                                        <td>
+                                            <%= venta.tipocomprobante %>
+                                        </td>
+                                        <td>
+                                            <%= venta.documento %>
+                                        </td>
+                                        <td>
+                                            <%= venta.nombre %>
+                                        </td>
+                                        <td>
+                                            <%= venta.totalventa %>
+                                        </td>
+                                        <td>
+                                            <%= venta.montocancelado %>
+                                        </td>
+                                        <td>
+                                            <%= venta.vuelto %>
+                                        </td>
+                                        <td>
+                                            <button onclick="boton(<%= venta.idventa %>)" type="button"
+                                                class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal3">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+
+                                            <button onclick="botoneliminar(<%= venta.idventa %>) " type="button"
+                                                class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-end">
+                                <li class="page-item disabled">
+                                    <a class="page-link">Atras</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Siguiente</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <h1>VENTAS AL CREDITO</h1>
+                        <table id="comprasTable" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID Venta</th>
+                                    <th>Metodo Pago</th>
+                                    <th>Fecha Venta</th>
+                                    <th>Hora Venta</th>
+                                    <th>Tipo Comprobante</th>
+                                    <th>Documento</th>
+                                    <th>Cliente</th>
+                                    <th>Total Venta</th>
+                                    <th>Monto Inicial</th>
+                                    <th>Debe</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% venta.forEach(function(venta) { %>
+                                    <tr>
+                                        <td>
+                                            <%= venta.idventa %>
+                                        </td>
+                                        <td>
+                                            <%= venta.metodopago %>
+                                        </td>
+                                        <td>
+                                            <%= new Date(venta.fechaventa).toLocaleDateString('es-ES', { weekday: 'long'
+                                                , year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                                        </td>
+                                        <td>
+                                            <%=venta.horaventa_12h %>
+                                        </td>
+                                        <td>
+                                            <%= venta.tipocomprobante %>
+                                        </td>
+                                        <td>
+                                            <%= venta.documento %>
+                                        </td>
+                                        <td>
+                                            <%= venta.nombre %>
+                                        </td>
+                                        <td>
+                                            <%= venta.totalventa %>
+                                        </td>
+                                        <td>
+                                            <%= venta.montoinicial %>
+                                        </td>
+                                        <td>
+                                            <%= venta.debe %>
+                                        </td>
+                                        <td>
+                                            <button onclick="botoneditar(<%= venta.idventa %>)" type="button"
+                                                class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal2">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+                                            <% if (venta.debe> 0) { %>
+                                                <button onclick="abrirModal(<%= venta.idventa %>)" type="button"
+                                                    class="btn btn-success" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModa">
+                                                    <i class="bi bi-clipboard-check-fill"></i> Pago
+                                                </button>
+                                                <% } %>
+
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+
+                            </tbody>
+                        </table>
+                        <h1>COMPRAS INACTIVAS</h1>
+                        <table id="comprasTable" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID Venta</th>
+                                    <th>Metodo Pago</th>
+                                    <th>Fecha Venta</th>
+                                    <th>Hora Venta</th>
+                                    <th>Tipo Comprobante</th>
+                                    <th>Documento</th>
+                                    <th>Cliente</th>
+                                    <th>Total Venta</th>
+                                    <th>Monto Cancelado</th>
+                                    <th>Vuelto</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% ventaInactivo.forEach(function(venta) { %>
+                                    <tr>
+                                        <td>
+                                            <%= venta.idventa %>
+                                        </td>
+                                        <td>
+                                            <%= venta.metodopago %>
+                                        </td>
+                                        <td>
+                                            <%= new Date(venta.fechaventa).toLocaleDateString('es-ES', { weekday: 'long'
+                                                , year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                                        </td>
+                                        <td>
+                                            <%=venta.horaventa_12h %>
+                                        </td>
+                                        <td>
+                                            <%= venta.tipocomprobante %>
+                                        </td>
+                                        <td>
+                                            <%= venta.documento %>
+                                        </td>
+                                        <td>
+                                            <%= venta.nombre %>
+                                        </td>
+                                        <td>
+                                            <%= venta.totalventa %>
+                                        </td>
+                                        <td>
+                                            <%= venta.montocancelado %>
+                                        </td>
+                                        <td>
+                                            <%= venta.vuelto %>
+                                        </td>
+                                        <td>
+                                            <button onclick="botonveract(<%= venta.idventa %>) " type="button"
+                                                class="btn btn-success">RESTABLECER</button>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Ventas</h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                            <form id="myForm">
+                                                <label for="idventa">ID:</label>
+                                                <input type="text" placeholder="Ingrese su ID" id="idventa" readonly>
+                                                <label for="fechaventa1">Fecha Venta:</label>
+                                                <input type="text" placeholder="Ingrese su Fecha" id="fechaventa1">
+                                                <label for="horaventa1">Hora Venta:</label>
+                                                <input type="text" placeholder="Ingrese su Hora" id="horaventa1">
+                                                <label for="tipocomprobante1">Tipo Comprobante:</label>
+                                                <input type="text" placeholder="Ingrese su RUC" id="tipocomprobante1"
+                                                    readonly>
+                                                <label for="documento1">Documento:</label>
+                                                <input type="text" placeholder="Ingrese su Documento" id="documento1">
+                                                <label for="idcliente1">Cliente:</label>
+                                                <select id="idcliente1">
+                                                    <% cliente.forEach(function(clien) { %>
+                                                        <option value="<%= clien.idcliente %>">
+                                                            <%= clien.nombre %>
+                                                        </option>
+                                                        <% }); %>
+                                                </select>
+                                                <label for="totalventa1">Total Venta:</label>
+                                                <input type="text" placeholder="Ingrese el total" id="totalventa1">
+                                                <label for="montoinicial1">Monto Inicial:</label>
+                                                <input type="text" placeholder="Ingrese el Monto" id="montoinicial1">
+                                                <label for="debe1">Debe:</label>
+                                                <input type="text" placeholder="Ingrese lo que debe" id="debe1">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="guardar()">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Ventas</h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                            <form id="myForm">
+                                                <label for="idventa1">ID:</label>
+                                                <input type="text" placeholder="Ingrese su ID" id="idventa1" readonly>
+                                                <label for="fechaventa2">Fecha Venta:</label>
+                                                <input type="text" placeholder="Ingrese su Fecha" id="fechaventa2">
+                                                <label for="horaventa2">Hora Venta:</label>
+                                                <input type="text" placeholder="Ingrese su Hora" id="horaventa2">
+                                                <label for="tipocomprobante2">Tipo Comprobante:</label>
+                                                <input type="text" placeholder="Ingrese su RUC" id="tipocomprobante2">
+                                                <label for="documento2">Documento:</label>
+                                                <input type="text" placeholder="Ingrese su Documento" id="documento2">
+                                                <label for="idcliente2">Cliente:</label>
+                                                <select id="idcliente2">
+                                                    <% cliente.forEach(function(clien) { %>
+                                                        <option value="<%= clien.idcliente %>">
+                                                            <%= clien.nombre %>
+                                                        </option>
+                                                        <% }); %>
+                                                </select>
+                                                <label for="totalventa2">Total Venta:</label>
+                                                <input type="text" placeholder="Ingrese el total" id="totalventa2">
+                                                <label for="montocancelado2">Monto Cancelado:</label>
+                                                <input type="text" placeholder="Ingrese el Monto" id="montocancelado2">
+                                                <label for="vuelto2">Vuelto:</label>
+                                                <input type="text" placeholder="Ingrese el vuelto" id="vuelto2">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="guardarDatos()">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModa" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Pago de Deuda</h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                            <form id="myForm">
+                                                <label for="idventa3">ID:</label>
+                                                <input type="text" placeholder="Ingrese su ID" id="idventa3" readonly>
+                                                <label for="fechaventa3" class="form-label">Fecha:</label>
+                                                <input type="date" class="form-control" id="fechaventa3">
+                                                <label for="horaventa3">Hora Venta:</label>
+                                                <input type="text" placeholder="Ingrese su Hora" id="horaventa3"
+                                                    readonly>
+                                                <label for="idcliente3">Cliente:</label>
+                                                <select id="idcliente3" disabled>
+                                                    <% cliente.forEach(function(clien) { %>
+                                                        <option value="<%= clien.idcliente %>">
+                                                            <%= clien.nombre %>
+                                                        </option>
+                                                        <% }); %>
+                                                </select>
+                                                <label for="totalventa3">Total Venta:</label>
+                                                <input type="text" placeholder="Ingrese el total" id="totalventa3"
+                                                    readonly>
+                                                <label for="montoinicial3">Monto Pagado:</label>
+                                                <input type="text" placeholder="Ingrese el Monto" id="montoinicial3"
+                                                    readonly>
+                                                <label for="debe3">Debe:</label>
+                                                <input type="text" placeholder="Ingrese lo que debe" id="debe3"
+                                                    readonly>
+                                                <label for="pago3">Pago:</label>
+                                                <input type="text" placeholder="Ingrese lo pagado" id="pago3"
+                                                    oninput="validarNumerosConDecimal(this); realizarCalculos(this)">
+                                        </div>
+                                        <!-- Añade estos dos campos invisibles al formulario -->
+                                        <input hidden type="text" placeholder="Ingrese el Monto" id="montoinicial31"
+                                            readonly>
+                                        <input hidden type="text" placeholder="Ingrese lo que debe" id="debe31"
+                                            readonly>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="guardar1()">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <footer class="sticky-footer bg-white">
+                            <div class="container my-auto">
+                                <div class="copyright text-center my-auto">
+                                    <span>Copyright &copy; UNSM 2023</span>
+                                </div>
+                            </div>
+                        </footer>
+                        <script>
+                            //
+                            function validarNumerosConDecimal(input) {
+                                // Permite solo números y un punto decimal
+                                input.value = input.value.replace(/[^0-9.]/g, '');
+
+                                // Verifica si hay más de un punto decimal y lo corrige
+                                var puntoDecimalCount = (input.value.match(/\./g) || []).length;
+                                if (puntoDecimalCount > 1) {
+                                    input.value = input.value.substring(0, input.value.lastIndexOf('.'));
+                                }
+                            }
+                            function realizarCalculos(inputPago) {
+                                var montoInicial = document.getElementById('montoinicial3');
+                                var debe = document.getElementById('debe3');
+                                var pago = inputPago;
+
+                                // Campos invisibles para almacenar los valores iniciales
+                                var montoInicialInvisible = document.getElementById('montoinicial31');
+                                var debeInvisible = document.getElementById('debe31');
+
+                                var montoInicialActual = parseFloat(montoInicialInvisible.value) || 0;
+                                var debeActual = parseFloat(debeInvisible.value) || 0;
+
+                                var pagoValor = parseFloat(pago.value) || 0;
+
+                                ////                             // Validación para evitar cantidades mayores al debe
+                                if (pagoValor > debeActual) {
+                                    // Mostrar un mensaje de error con SweetAlert
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error de validación',
+                                        text: 'La cantidad pagada no puede ser mayor al monto que debe ',
+                                        showConfirmButton: true
+                                    });
+
+                                    // Restablecer el valor anterior en el campo de pago
+                                    pago.value = "";
+
+                                    // Detener la ejecución de la función
+                                    return;
+                                }
+                                // Realiza cálculos solo si se ingresa un valor en el campo de pago
+                                if (!isNaN(pagoValor)) {
+                                    var nuevoMontoinicial = montoInicialActual + pagoValor;
+                                    var nuevoDebe = debeActual - pagoValor;
+
+                                    // Actualiza los campos visibles
+                                    montoInicial.value = nuevoMontoinicial.toFixed(2);
+                                    debe.value = nuevoDebe.toFixed(2);
+                                } else {
+                                    // Restablece los valores iniciales en los campos visibles y en los campos invisibles
+                                    montoInicial.value = montoInicialInvisible.value;
+                                    debe.value = debeInvisible.value;
+                                    pago.value = debeInvisible.value; // Actualiza el campo de pago
+                                }
+                            }
+                            //
+                            function obtenerFechaYHora() {
+                                return fetch('https://worldtimeapi.org/api/timezone/America/Lima')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        const fecha = data.utc_datetime.slice(0, 10); // Formato yyyy-mm-dd
+                                        const horaUtc = data.utc_datetime.slice(11, 16); // Formato hh:mm
+
+                                        return {
+                                            fecha: fecha,
+                                            hora: horaUtc
+                                        };
+                                    })
+                                    .catch(error => {
+                                        console.error('Error al obtener la fecha y hora:', error);
+                                        return null;
+                                    });
+                            }
+
+                            function abrirModal(idventa) {
+                                obtenerFechaYHora().then(function (fechaYHora) {
+                                    if (fechaYHora) {
+                                        document.getElementById('fechaventa3').setAttribute("max", fechaYHora.fecha);
+                                        document.getElementById('fechaventa3').value = fechaYHora.fecha;
+                                        document.getElementById('horaventa3').value = fechaYHora.hora;
+                                    }
+
+                                    if (idventa) {
+                                        // Asignar el ID de la venta al campo oculto
+                                        document.getElementById('idventa').value = idventa;
+
+                                        axios.get(`/admin/visuaventas/${idventa}`)
+                                            .then(function (response) {
+                                                const respuestadelquery = response.data;
+                                                if (respuestadelquery) {
+                                                    console.log(respuestadelquery);
+                                                    document.getElementById('idventa3').value = respuestadelquery.idventa;
+                                                    document.getElementById('idcliente3').value = respuestadelquery.idcliente;
+                                                    document.getElementById('totalventa3').value = respuestadelquery.totalventa;
+                                                    document.getElementById('montoinicial3').value = respuestadelquery.montoinicial;
+                                                    document.getElementById('debe3').value = respuestadelquery.debe;
+
+                                                    document.getElementById('montoinicial31').value = respuestadelquery.montoinicial;
+                                                    document.getElementById('debe31').value = respuestadelquery.debe;
+
+                                                    console.log(respuestadelquery.idcliente);
+                                                    console.log(document.getElementById('montoinicial31').value);
+                                                    console.log(document.getElementById('debe31').value);
+                                                }
+                                            })
+                                            .catch(function (error) {
+                                                console.error(error);
+                                            });
+                                    }
+
+                                    $('#exampleModa').modal('show');
+                                });
+                            }
+
+
+
+                            //
+                            function botoneditar(idventa) {
+                                // Asignar cantidad el ID del perfil al campo oculto
+
+                                axios.get(`/admin/visuaventas/${idventa}`)
+                                    .then(function (response) {
+                                        const respuestadelquery = response.data;
+                                        if (respuestadelquery) {
+                                            console.log(respuestadelquery); // Imprimir los datos en la consola
+                                            document.getElementById('idventa').value = respuestadelquery.idventa;
+                                            document.getElementById('fechaventa1').value = respuestadelquery.fechaventa;
+                                            document.getElementById('horaventa1').value = respuestadelquery.horaventa;
+                                            document.getElementById('tipocomprobante1').value = respuestadelquery.tipocomprobante;
+                                            document.getElementById('documento1').value = respuestadelquery.documento;
+                                            document.getElementById('idcliente1').value = respuestadelquery.idcliente;
+                                            document.getElementById('totalventa1').value = respuestadelquery.totalventa;
+                                            document.getElementById('montoinicial1').value = respuestadelquery.montoinicial;
+                                            document.getElementById('debe1').value = respuestadelquery.debe;
+
+
+                                            console.log(respuestadelquery.idcliente);
+
+                                        }
+                                    })
+                                    .catch(function (error) {
+                                        console.error(error);
+                                    });
+                            }
+                            function boton(idventa) {
+                                // Asignar el ID del perfil al campo oculto
+
+                                axios.get(`/admin/visuaventas/${idventa}`)
+                                    .then(function (response) {
+                                        const respuestadelquery = response.data;
+                                        if (respuestadelquery) {
+                                            console.log(respuestadelquery); // Imprimir los datos en la consola
+                                            document.getElementById('idventa1').value = respuestadelquery.idventa;
+                                            document.getElementById('fechaventa2').value = respuestadelquery.fechaventa;
+                                            document.getElementById('horaventa2').value = respuestadelquery.horaventa;
+                                            document.getElementById('tipocomprobante2').value = respuestadelquery.tipocomprobante;
+                                            document.getElementById('documento2').value = respuestadelquery.documento;
+                                            document.getElementById('idcliente2').value = respuestadelquery.idcliente;
+                                            document.getElementById('totalventa2').value = respuestadelquery.totalventa;
+                                            document.getElementById('montocancelado2').value = respuestadelquery.montocancelado;
+                                            document.getElementById('vuelto2').value = respuestadelquery.vuelto;
+
+
+                                            console.log(respuestadelquery.idcliente);
+
+                                        }
+                                    })
+                                    .catch(function (error) {
+                                        console.error(error);
+                                    });
+                            }
+                            function guardarDatos() {
+                                // Obtén el valor del campo de entrada
+                                // Obtener los valores de los campos de entrada
+                                const idventa = document.getElementById('idventa1').value;
+                                const fechaventa2 = document.getElementById('fechaventa2').value;
+                                const horaventa2 = document.getElementById('horaventa2').value;
+                                const tipocomprobante2 = document.getElementById('tipocomprobante2').value;
+                                const documento2 = document.getElementById('documento2').value;
+                                const idcliente2 = document.getElementById('idcliente2').value;
+                                const totalventa2 = document.getElementById('totalventa2').value;
+                                const montocancelado2 = document.getElementById('montocancelado2').value;
+                                const vuelto2 = document.getElementById('vuelto2').value;
+
+                                console.log(montocancelado2);
+                                // Crear un objeto de datos con los valores para usar en los controolers
+                                const data = {
+                                    fechaventa2: fechaventa2,
+                                    horaventa2: horaventa2,
+                                    tipocomprobante2: tipocomprobante2,
+                                    documento2: documento2,
+                                    idcliente2: idcliente2,
+                                    totalventa2: totalventa2,
+                                    montocancelado2: montocancelado2,
+                                    vuelto2: vuelto2
+                                };
+
+
+                                axios.patch(`/admin/visuaventas/${idventa}`, data)
+                                    .then(function (response) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Registro exitoso',
+                                            text: 'La Venta se realizó correctamente.',
+                                            timer: 2000,
+                                            showConfirmButton: false
+                                        }).then(function () {
+                                            // Después de que el usuario haya visto la notificación, actualiza la página
+                                            location.reload(); // Esto recargará la página actual
+                                        });
+                                    })
+                                    .catch(function (error) {
+                                        console.error("no entra al axios" + error);
+                                    });
+
+                            }
+                            //
+                            function guardar() {
+                                // Obtén el valor del campo de entrada
+                                // Obtener los valores de los campos de entrada
+                                const idventa = document.getElementById('idventa').value;
+                                const fechaventa1 = document.getElementById('fechaventa1').value;
+                                const horaventa1 = document.getElementById('horaventa1').value;
+                                const tipocomprobante1 = document.getElementById('tipocomprobante1').value;
+                                const documento1 = document.getElementById('documento1').value;
+                                const idcliente1 = document.getElementById('idcliente1').value;
+                                const totalventa1 = document.getElementById('totalventa1').value;
+                                const montoinicial1 = document.getElementById('montoinicial1').value;
+                                const debe1 = document.getElementById('debe1').value;
+
+
+                                // Crear un objeto de datos con los valores para usar en los controolers
+                                const data = {
+                                    fechaventa2: fechaventa1,
+                                    horaventa2: horaventa1,
+                                    tipocomprobante2: tipocomprobante1,
+                                    documento2: documento1,
+                                    idcliente2: idcliente1,
+                                    totalventa2: totalventa1,
+                                    montoinicial2: montoinicial1,
+                                    debe2: debe1,
+                                };
+
+                                console.log(data);
+                                console.log(idventa);
+                                axios.patch(`/admin/visuaventascredito/${idventa}`, data)
+                                    .then(function (response) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Registro exitoso',
+                                            text: 'La Venta se realizó correctamente.',
+                                            timer: 2000,
+                                            showConfirmButton: false
+                                        }).then(function () {
+                                            // Después de que el usuario haya visto la notificación, actualiza la página
+                                            location.reload(); // Esto recargará la página actual
+                                        });
+                                    })
+                                    .catch(function (error) {
+                                        console.error(error);
+                                    });
+
+                            }
+
+                            function guardar1() {
+                                // Obtén el valor del campo de entrada
+                                // Obtener los valores de los campos de entrada
+                                const idventa = document.getElementById('idventa3').value;
+                                const fechaventa1 = document.getElementById('fechaventa3').value;
+                                const horaventa1 = document.getElementById('horaventa3').value;
+                                const idcliente1 = document.getElementById('idcliente3').value;
+                                const totalventa1 = document.getElementById('totalventa3').value;
+                                const montoinicial1 = document.getElementById('montoinicial3').value;
+                                const debe1 = document.getElementById('debe3').value;
+
+
+                                // Crear un objeto de datos con los valores para usar en los controolers
+                                const data = {
+                                    fechaventa3: fechaventa1,
+                                    horaventa3: horaventa1,
+                                    idcliente3: idcliente1,
+                                    totalventa3: totalventa1,
+                                    montoinicial3: montoinicial1,
+                                    debe3: debe1,
+                                };
+
+                                console.log(data);
+                                console.log(idventa);
+                                axios.patch(`/admin/visuaventaspago/${idventa}`, data)
+                                    .then(function (response) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Registro exitoso',
+                                            text: 'La Venta se realizó correctamente.',
+                                            timer: 2000,
+                                            showConfirmButton: false
+                                        }).then(function () {
+                                            // Después de que el usuario haya visto la notificación, actualiza la página
+                                            location.reload(); // Esto recargará la página actual
+                                        });
+                                    })
+                                    .catch(function (error) {
+                                        console.error(error);
+                                    });
+
+                            }
+                            //
+                            function botonveract(idventa) {
+                                // Utiliza SweetAlert2 para mostrar una ventana modal de confirmación
+                                Swal.fire({
+                                    title: '¿Estás seguro?',
+                                    text: 'Esta acción restablecera la Venta con ID ' + idventa,
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Sí, restablecer',
+                                    cancelButtonText: 'Cancelar',
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // El usuario confirmó la eliminación, realiza la solicitud DELETE con Axios
+                                        axios.delete(`/admin/borravisuaventa/${idventa}`)
+                                            .then((response) => {
+                                                // Si la solicitud DELETE se completa con éxito, puedes manejar la respuesta aquí
+                                                console.log('Compra restablecido con éxito');
+                                                // Puedes realizar acciones adicionales, como redirigir a otra página o actualizar la interfaz de usuario
+                                                window.location.reload();
+                                            })
+                                            .catch((error) => {
+                                                // Si hay un error en la solicitud DELETE, puedes manejarlo aquí
+                                                console.error('Error al restablecer Venta:', error);
+                                                // Puedes mostrar un mensaje de error o realizar otras acciones según sea necesario
+                                            });
+                                    }
+                                });
+                            }
+                            //
+                            function botoneliminar(idventa) {
+                                // Utiliza SweetAlert2 para mostrar una ventana modal de confirmación
+                                Swal.fire({
+                                    title: '¿Estás seguro?',
+                                    text: 'Esta acción eliminará la Venta con ID ' + idventa,
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Sí, eliminar',
+                                    cancelButtonText: 'Cancelar'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // El usuario confirmó la eliminación, realiza la solicitud DELETE con Axios
+                                        axios.delete(`/admin/visuaventas/${idventa}`)
+                                            .then((response) => {
+                                                // Si la solicitud DELETE se completa con éxito, puedes manejar la respuesta aquí
+                                                console.log('Venta eliminado con éxito');
+                                                // Puedes realizar acciones adicionales, como redirigir a otra página o actualizar la interfaz de usuario
+                                                window.location.reload();
+                                            })
+                                            .catch((error) => {
+                                                // Si hay un error en la solicitud DELETE, puedes manejarlo aquí
+                                                console.error('Error al eliminar la Compra:', error);
+                                                // Puedes mostrar un mensaje de error o realizar otras acciones según sea necesario
+                                            });
+                                    }
+                                });
+                            }
+                            //
+
+
+
+
+                            //PARA BUSCAR EN MI TABLA
+                            // Obtener referencia al campo de búsqueda
+                            const campoBusqueda = document.getElementById('busqueda');
+
+                            // Obtener todas las filas de la tabla
+                            const filasTabla = document.querySelectorAll('tbody tr');
+
+                            // Agregar un evento de entrada al campo de búsqueda
+                            campoBusqueda.addEventListener('input', function () {
+                                const consulta = campoBusqueda.value.toLowerCase();
+
+                                // Iterar a través de las filas de la tabla y mostrar/ocultar según la consulta
+                                filasTabla.forEach(function (fila) {
+                                    const contenidoFila = fila.textContent.toLowerCase();
+                                    if (contenidoFila.includes(consulta)) {
+                                        fila.style.display = 'table-row';
+                                    } else {
+                                        fila.style.display = 'none';
+                                    }
+                                });
+                            });
+
+
+                            //
+
+                            // paginacion ////
+                            document.addEventListener("DOMContentLoaded", function () {
+                                var ventaTable = document.getElementById("ventaTable");
+                                var selectOption1 = document.getElementById("selectOption1");
+                                var pagination = document.querySelector(".pagination");
+
+                                function updateTable() {
+                                    var itemsPerPage = parseInt(selectOption1.value);
+                                    var rows = ventaTable.tBodies[0].rows;
+                                    var pageCount = Math.ceil(rows.length / itemsPerPage);
+                                    showPage(1);
+                                    updatePagination(pageCount);
+                                }
+
+                                function showPage(pageNumber) {
+                                    var itemsPerPage = parseInt(selectOption1.value);
+                                    var rows = ventaTable.tBodies[0].rows;
+
+                                    for (var i = 0; i < rows.length; i++) {
+                                        rows[i].style.display = "none";
+                                    }
+
+                                    var startIndex = (pageNumber - 1) * itemsPerPage;
+                                    var endIndex = startIndex + itemsPerPage;
+                                    for (var i = startIndex; i < endIndex && i < rows.length; i++) {
+                                        rows[i].style.display = "";
+                                    }
+
+                                    currentPage = pageNumber;
+                                }
+
+                                function updatePagination(pageCount) {
+                                    pagination.innerHTML = "";
+
+                                    var previousButton = createPaginationButton("Atras", function () {
+                                        if (currentPage > 1) {
+                                            showPage(currentPage - 1);
+                                        }
+                                    });
+                                    pagination.appendChild(previousButton);
+
+                                    for (var i = 1; i <= pageCount; i++) {
+                                        var pageButton = createPaginationButton(i, function () {
+                                            showPage(this.textContent);
+                                        });
+                                        pagination.appendChild(pageButton);
+                                    }
+
+                                    var nextButton = createPaginationButton("Siguiente", function () {
+                                        if (currentPage < pageCount) {
+                                            showPage(currentPage + 1);
+                                        }
+                                    });
+                                    pagination.appendChild(nextButton);
+                                }
+
+                                function createPaginationButton(text, clickHandler) {
+                                    var button = document.createElement("li");
+                                    button.classList.add("page-item");
+                                    var link = document.createElement("a");
+                                    link.classList.add("page-link");
+                                    link.textContent = text;
+                                    link.href = "#";
+                                    link.addEventListener("click", clickHandler);
+                                    button.appendChild(link);
+                                    return button;
+                                }
+
+                                updateTable();
+                                var currentPage = 1;
+
+                                selectOption1.addEventListener("change", function () {
+                                    currentPage = 1;
+                                    updateTable();
+                                });
+                            });
+
+                            // fin ///
+
+                        </script>
+
+
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+                            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+                            crossorigin="anonymous"></script>
+                        </>
+                        <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery/jquery.min.js"></script>
+    <script src="/src/boostrapdiseñoadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/src/boostrapdiseñoadmin/js/sb-admin-2.min.js"></script>
+
+    <script src="/src/proyecto/js/jquery-3.1.1.min.js"></script>
+    <script src="/src/proyecto/js/sweetalert2.min.js"></script>
+    <script src="/src/proyecto/js/bootstrap.min.js"></script>
+    <script src="/src/proyecto/js/material.min.js"></script>
+    <script src="/src/proyecto/js/ripples.min.js"></script>
+    <script src="/src/proyecto/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/src/proyecto/js/main.js"></script>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
+    <script>
+        $.material.init();
+    </script>
+
+</body>
+
+</html>

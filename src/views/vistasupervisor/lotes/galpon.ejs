@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="/src/views/img/icono.ico">
+    <title>GALPONES</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/src/boostrapdiseñoadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/src/boostrapdiseñoadmin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/src/views/css/registrar.css">
+    <link rel="stylesheet" href="/src/views/css/estiloperfiles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <%- include('../plantilla/listamodulos') %>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <%- include('../plantilla/navbar') %>
+                        <!-- End of Topbar -->
+
+                        <!-- ACA DEBEMOS COPIAR LAS TABLAS O REGISTROS PARTE BLANCA -->
+                        <div class="container-fluid overflow-auto">
+                            <h1></h1>
+
+                            <div class="row g-3">
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal1">
+                                        AGREGAR GALPONES <i class="bi bi-house-add"></i>
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="busqueda"
+                                        placeholder="  🔍︎    Buscar Galpon..."
+                                        oninput="this.value = this.value.toUpperCase()">
+                                </div>
+                            </div>
+
+                            <!---->
+                            <!-- ***** Gaming Library Start ***** -->
+                            <div class="text-center"> <!-- Agregar una clase 'text-center' al contenedor del texto -->
+                                <h1>GALPONES EN EL SISTEMA</h1>
+                            </div>
+                            <div class="col-lg-12">
+                                <h4>ESTADO DE GALPONES</h4>
+                                <div class="item">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="bg-primary text-white">
+                                                <tr>
+                                                    <th class="text-center">Galpon</th>
+                                                    <th class="text-center">Numero de Galpon</th>
+                                                    <th classs="text-center">Disponibilidad </th>
+                                                    <th class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% galpon.forEach(function(galpon) { %>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex justify-content-center">
+                                                                <img src="/src/control/assets/images/galpon.jpg"
+                                                                    alt="Imagen de Galpon"
+                                                                    class="templatemo-item img-thumbnail"
+                                                                    style="max-width: 100px;">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <%= galpon.nombregalpon %>
+                                                        </td>
+                                                        <td>
+                                                            <%= galpon.disponibilidad %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (galpon.estadogalpon==1) { %>
+                                                                <button onclick="botoningreso(<%= galpon.idgalpon %>)"
+                                                                    type="button" class="btn btn-primary"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#exampleModal2">
+                                                                    Ingresar
+                                                                    <i class="bi bi-house-add"></i>
+                                                                </button>
+                                                                <% } %>
+                                                                    <% if (galpon.estadogalpon==1) { %>
+                                                                        <button
+                                                                            onclick="botoneditar(<%= galpon.idgalpon %>)"
+                                                                            type="button" class="btn btn-primary"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#exampleModal">
+                                                                            <i class="bi bi-pencil-square"></i>
+                                                                        </button>
+                                                                        <% } %>
+                                                                            <% if (galpon.estadogalpon==1) { %>
+                                                                                <button
+                                                                                    onclick="botoneliminar(<%= galpon.idgalpon %>) "
+                                                                                    type="button"
+                                                                                    class="btn btn-danger"><i
+                                                                                        class="bi bi-trash-fill"></i></button>
+                                                                                <% } %>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!---->
+                        <h1>GALPONES INACTIVOS</h1>
+
+                        <div class="col-lg-12">
+                            <div class="item">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Galpon</th>
+                                                <th class="text-center">Numero de Galpon</th>
+                                                <th classs="text-center">Disponibilidad </th>
+                                                <th class="text-center">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% galponInactivos.forEach(function(galpon) { %>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center">
+                                                            <img src="/src/control/assets/images/galpon.jpg"
+                                                                alt="Imagen de Galpon"
+                                                                class="templatemo-item img-thumbnail"
+                                                                style="max-width: 100px;">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <%= galpon.nombregalpon %>
+                                                    </td>
+                                                    <td>
+                                                        <%= galpon.disponibilidad %>
+                                                    </td>
+                                                    <td>
+                                                        <button onclick="botonveract(<%= galpon.idgalpon %>)"
+                                                            type="button" class="btn btn-success">RESTABLECER</button>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MODAL PARA AGREGAR PROVEEDOR-->
+                        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">AGREGAR GALPON</h1>
+
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                            <form id="myForm">
+
+                                                <label for="nombregalpon">GALPON:</label>
+                                                <input type="text" placeholder="Ingrese Nombre del Galpon"
+                                                    id="nombregalpon" oninput="validarYConvertir(this)">
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="postDatos()">Agregar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--
+
+                            -->
+
+                        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">REGISTRAR GALPON</h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                            <form id="myForm">
+                                                <label for="nombregalpon1">Galpon:</label>
+                                                <input type="text" id="nombregalpon4" readonly>
+                                                <input type="text" id="nombregalpon1" readonly style="display: none;">
+                                                <label for="nombre_producto">Producto:</label>
+                                                <select id="nombre_producto">
+                                                    <% producto.forEach(function(productos) { %>
+                                                        <option value="<%= productos.idproducto %>">
+                                                            <%= productos.nombre_producto %>
+                                                        </option>
+                                                        <% }); %>
+                                                </select>
+                                                <label for="cantidadpollo">Cantidad:</label>
+                                                <input type="text" id="cantidadpollo"
+                                                    oninput="validarYConvertir2(this)">
+
+                                                <label for="fechallegada" class="form-label">Fecha:</label>
+                                                <input type="date" class="form-control" id="fechallegada">
+
+                                                <label for="mortalidadpollos">Mortalidad:</label>
+                                                <input type="text" id="mortalidadpollos" oninput="valor(this)" readonly
+                                                    value="0">
+
+                                                <label for="descripcion">Descripcion:</label>
+                                                <input type="text" id="descripcion">
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="registrar()">Registrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- MODAL PARA EDITAR-->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">ACTUALIZAR GALPON
+                                        </h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                            <form id="myForm">
+                                                <label for="idgalpon1">ID:</label>
+                                                <input type="text" placeholder="Ingrese su ID" id="idgalpon1" readonly>
+                                                <label for="nombregalpon2">Galpon:</label>
+                                                <input type="text" placeholder="Ingrese Nombre del Galpon"
+                                                    id="nombregalpon2" oninput="validarYConvertir(this)">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="guardarDatos()">Actualizar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; UNSM 2023</span>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+
+            <script>
+                //
+                function valor(input) {
+                    // Si el campo está vacío, establece el valor a "0"
+                    if (input.value === "") {
+                        input.value = "0";
+                    }
+                }
+
+                //
+                async function obtenerFechaActual() {
+                    const apiUrlFecha = 'https://worldtimeapi.org/api/timezone/America/Lima';
+
+                    try {
+                        const responseFecha = await fetch(apiUrlFecha);
+                        const dataFecha = await responseFecha.json();
+                        const fecha = dataFecha.datetime.split('T')[0];
+
+                        document.getElementById('fechallegada').setAttribute('max', fecha);
+                        document.getElementById('fechallegada').value = fecha;
+
+                        return fecha;
+                    } catch (error) {
+                        console.error('Error al obtener la fecha actual:', error);
+                        throw error;
+                    }
+                }
+
+                async function obtenerInformacionGalpon(idgalpon) {
+                    const apiUrlGalpon = `/galponsuper/${idgalpon}`;
+
+                    try {
+                        const galponResponse = await axios.get(apiUrlGalpon);
+                        const respuestadelquery = galponResponse.data;
+
+                        if (respuestadelquery) {
+                            document.getElementById('nombregalpon4').value = respuestadelquery.nombregalpon;
+                            document.getElementById('nombregalpon1').value = respuestadelquery.idgalpon;
+                            console.log("HOLA");
+                        }
+
+                        return respuestadelquery;
+                    } catch (error) {
+                        console.error('Error al obtener la información del galpón:', error);
+                        throw error;
+                    }
+                }
+
+                async function botoningreso(idgalpon) {
+                    try {
+                        // Obtener la fecha actual
+                        const fecha = await obtenerFechaActual();
+
+                        // Obtener información del galpón
+                        const respuestadelquery = await obtenerInformacionGalpon(idgalpon);
+
+                        console.log(respuestadelquery);
+                    } catch (error) {
+                        console.error('Error en la función botoningreso:', error);
+                    }
+                }
+
+                function registrar() {
+                    // Obtener los valores de los campos de entrada
+                    const idgalpon = document.getElementById('nombregalpon1').value;
+                    const cantidadpollo = document.getElementById('cantidadpollo').value;
+                    const fechallegada = document.getElementById('fechallegada').value;
+                    const idproducto = document.getElementById('nombre_producto').value;
+                    const mortalidadpollos = document.getElementById('mortalidadpollos').value;
+                    const descripcion = document.getElementById('descripcion').value;
+
+                    // Crear un objeto de datos con los valores para usar en los controolers
+                    const data = {
+                        idgalpon: idgalpon,
+                        cantidadpollo: cantidadpollo,
+                        fechallegada: fechallegada,
+                        idproducto: idproducto,
+                        mortalidadpollos: mortalidadpollos,
+                        descripcion: descripcion,
+                    };
+
+                    // Enviar una solicitud POST a la ruta "admin/controlgalpon" utilizando Axios
+                    axios.post('/supervisor/controlgalpon', data)
+                        .then(function (response) {
+                            // Obtener el ID del control galpon recién insertado desde la respuesta
+                            const idControlGalpon = response.data.idControlGalpon;
+
+                            // Mostrar un mensaje de éxito con SweetAlert
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registro exitoso',
+                                text: 'El Control Galpon se realizó correctamente.',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+
+                            // Redirigir al usuario después de 2 segundos (2000 ms)
+                            setTimeout(function () {
+                                // Realizar la operación de actualización (axios.patch) con el ID del control galpon
+                                axios.patch(`/supervisor/controlgalpon/${idControlGalpon}`, { /* datos de actualización */ })
+                                    .then(function (patchResponse) {
+                                        console.log("Operación de actualización realizada con éxito:", patchResponse.data);
+                                        // Redirigir a la página deseada
+                                        window.location.href = '/supervisor/galpon';
+                                    })
+                                    .catch(function (patchError) {
+                                        console.error("Error en la operación de actualización:", patchError);
+                                    });
+                            }, 2000);
+                        })
+                        .catch(function (error) {
+                            console.error("Error en la operación de registro:", error);
+                        });
+                }
+
+
+                //
+                function botoneditar(idgalpon) {
+                    // Asignar el ID del perfil al campo oculto
+                    console.log(idgalpon);
+                    axios.get(`/galponsuper/${idgalpon}`)
+                        .then(function (response) {
+                            const respuestadelquery = response.data;
+
+                            if (respuestadelquery) {
+                                console.log(respuestadelquery);
+                                // Imprimir los datos en la consola
+                                document.getElementById('idgalpon1').value = respuestadelquery.idgalpon;
+                                document.getElementById('nombregalpon2').value = respuestadelquery.nombregalpon;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.error(error);
+                        });
+                }
+
+
+                function postDatos() {
+                    // Obtener los valores de los campos de entrada
+                    const nombregalpon = document.getElementById('nombregalpon').value;
+
+                    // Crear un objeto de datos con los valores para usar en los controolers
+                    const data = {
+                        nombregalpon: nombregalpon,
+                    };
+
+                    // Enviar una solicitud POST a la ruta "clientes" utilizando Axios
+                    axios.post('/supervisor/galpon', data)
+                        .then(function (response) {
+                            // Mostrar un mensaje de éxito con SweetAlert
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registro exitoso',
+                                text: 'El Galpon se realizó correctamente.',
+                                timer: 2000, // Cambia la duración del mensaje si lo deseas
+                                showConfirmButton: false // Oculta el botón "OK"
+                            });
+
+                            // Redirigir al usuario después de 2 segundos (2000 ms)
+                            setTimeout(function () {
+                                window.location.href = '/supervisor/galpon';
+                            }, 2000);
+                        })
+
+                }
+
+
+                function guardarDatos() {
+                    // Obtén el valor del campo de entrada
+                    // Obtener los valores de los campos de entrada
+                    const idgalpon1 = document.getElementById('idgalpon1').value;
+                    const nombregalpon2 = document.getElementById('nombregalpon2').value;
+
+                    // Crear un objeto de datos con los valores para usar en los controolers
+                    const data = {
+                        nombregalpon2: nombregalpon2,
+                    };
+
+
+                    axios.put(`/supervisor/galpon/${idgalpon1}`, data)
+                        .then(function (response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registro exitoso',
+                                text: 'El Galpon se realizó correctamente.',
+                                timer: 2000,
+                                showConfirmButton: false
+                            }).then(function () {
+                                // Después de que el usuario haya admin visto la notificación, actualiza la página
+                                location.reload(); // Esto recargará la página actual
+                            });
+                        })
+                        .catch(function (error) {
+                            console.error(error);
+                        });
+
+                }
+
+
+                function botoneliminar(idgalpon) {
+                    // Utiliza SweetAlert2 para mostrar una ventana modal de confirmación
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: 'Esta acción eliminará el Galpon con ID ' + idgalpon,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // El usuario confirmó la eliminación, realiza la solicitud DELETE con Axios
+                            axios.delete(`/supervisor/galpon/${idgalpon}`)
+                                .then((response) => {
+                                    // Si la solicitud DELETE se completa con éxito, puedes manejar la respuesta aquí
+                                    console.log('Galpon eliminado con éxito');
+                                    // Puedes realizar acciones adicionales, como redirigir a otra página o actualizar la interfaz de usuario
+                                    window.location.reload();
+                                })
+                                .catch((error) => {
+                                    // Si hay un error en la solicitud DELETE, puedes manejarlo aquí
+                                    console.error('Error al eliminar Galpon:', error);
+                                    // Puedes mostrar un mensaje de error o realizar otras acciones según sea necesario
+                                });
+                        }
+                    });
+                }
+
+                function botonveract(idgalpon) {
+                    // Utiliza SweetAlert2 para mostrar una ventana modal de confirmación
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: 'Esta acción restablecera el Galpon con ID ' + idgalpon,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, restablecer',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // El usuario confirmó la eliminación, realiza la solicitud DELETE con Axios
+                            axios.delete(`/supervisor/borragalpon/${idgalpon}`)
+                                .then((response) => {
+                                    // Si la solicitud DELETE se completa con éxito, puedes manejar la respuesta aquí
+                                    console.log('Galpon restablecido con éxito');
+                                    // Puedes realizar acciones adicionales, como redirigir a otra página o actualizar la interfaz de usuario
+                                    window.location.reload();
+                                })
+                                .catch((error) => {
+                                    // Si hay un error en la solicitud DELETE, puedes manejarlo aquí
+                                    console.error('Error al restablecer Galpon:', error);
+                                    // Puedes mostrar un mensaje de error o realizar otras acciones según sea necesario
+                                });
+                        }
+                    });
+                }
+                //PARA HACER QUE SEA PURA MAYUSCULA Y CON NUMEROS, ESPACIO
+                function validarYConvertir(input) {
+                    // Expresión regular que acepta letras, números y espacios
+                    var regex = /^[A-Za-z0-9\s]+$/;
+
+                    if (!regex.test(input.value)) {
+                        // Si el valor no cumple con la expresión regular, elimina los caracteres no permitidos
+                        input.value = input.value.replace(/[^A-Za-z0-9\s]+/g, '');
+                    }
+
+                    // Convierte a mayúsculas
+                    input.value = input.value.toUpperCase();
+                }
+
+
+                //PARA BUSCAR EN MI TABLA
+                // Obtener referencia al campo de búsqueda
+                const campoBusqueda = document.getElementById('busqueda');
+
+                // Obtener todas las filas de la tabla
+                const filasTabla = document.querySelectorAll('tbody tr');
+
+                // Agregar un evento de entrada al campo de búsqueda
+                campoBusqueda.addEventListener('input', function () {
+                    const consulta = campoBusqueda.value.toLowerCase();
+
+                    // Iterar a través de las filas de la tabla y mostrar/ocultar según la consulta
+                    filasTabla.forEach(function (fila) {
+                        const contenidoFila = fila.textContent.toLowerCase();
+                        if (contenidoFila.includes(consulta)) {
+                            fila.style.display = 'table-row';
+                        } else {
+                            fila.style.display = 'none';
+                        }
+                    });
+                });
+
+                //
+                // Función que valida y convierte a puro número con mensaje de límite de 1500
+                function validarYConvertir2(input) {
+                    // Elimina caracteres no permitidos
+                    input.value = input.value.replace(/[^0-9]/g, '');
+
+                    // Convierte el valor a número
+                    var numero = parseInt(input.value, 10);
+
+                    // Verifica si es un número válido y no es NaN
+                    if (isNaN(numero)) {
+                        numero = 0; // Establece a 0 si no es un número válido
+                    }
+
+                    // Muestra un mensaje si el valor es mayor a 1500
+                    if (numero > 1500) {
+                        alert("La capacidad máxima del galpón es de 1500. Se ajustará al máximo permitido.");
+                        numero = 1500;
+                    }
+
+                    // Actualiza el valor en el input
+                    input.value = numero;
+                }
+                //
+
+                //PARA ESCRIBIR PURA MAYUSCULA
+                //function convertirAMayusculas(input) {
+                // input.value = input.value.toUpperCase();
+                //}
+
+
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+                crossorigin="anonymous"></script>
+    </div>
+    <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+
+    <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery/jquery.min.js"></script>
+    <script src="/src/boostrapdiseñoadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/src/boostrapdiseñoadmin/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

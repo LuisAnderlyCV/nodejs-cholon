@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" type="image/x-icon" href="/src/views/img/icono.ico">
+  <title>USUARIO</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="/src/boostrapdiseñoadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="/src/boostrapdiseñoadmin/css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/src/views/css/registrar.css">
+  <link rel="stylesheet" href="/src/views/css/estiloperfiles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <%- include('../plantilla/listamodulos') %>
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+          <!-- Topbar -->
+          <%- include('../plantilla/navbar') %>
+            <!-- End of Topbar -->
+
+            <!-- ACA DEBEMOS COPIAR LAS TABLAS O REGISTROS PARTE BLANCA -->
+            <div class="container-fluid overflow-auto">
+              <div class="row g-3">
+                <div class="col">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1"
+                    onclick="redirigirAUsuario()">
+                    AGREGAR USUARIO
+                  </button>
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" id="busqueda" placeholder="  🔍︎    Buscar..."
+                    oninput="this.value = this.value.toUpperCase()">
+                    <!-- con caracteres especiales -->
+                </div>
+              </div>
+              <h1>USUARIOS EN EL SISTEMA</h1>
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>ID de Usuario</th>
+                    <th>dni</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Perfil</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% usuario.forEach(function(usuario) { %>
+                    <tr>
+                      <td>
+                        <%= usuario.idusuario %>
+                      </td>
+                      <td>
+                        <%= usuario.dni %>
+                      </td>
+                      <td>
+                        <%= usuario.nombre %>
+                      </td>
+                      <td>
+                        <%= usuario.correo %>
+                      </td>
+                      <td>
+                        <%= usuario.perfil %>
+                      </td>
+                      <td>
+                        <button onclick="botoneditar(<%= usuario.idusuario %>)" type="button" class="btn btn-primary"
+                          data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button onclick="botoneliminar(<%= usuario.idusuario %>) " type="button"
+                          class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                      </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+              </table>
+
+              <h1>USUARIOS ELIMINADOS DEL SISTEMA</h1>
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>ID de Usuario</th>
+                    <th>dni</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Perfil</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% usuarioInactivos.forEach(function(usuario) { %>
+                    <tr>
+                      <td>
+                        <%= usuario.idusuario %>
+                      </td>
+                      <td>
+                        <%= usuario.dni %>
+                      </td>
+                      <td>
+                        <%= usuario.nombre %>
+                      </td>
+                      <td>
+                        <%= usuario.correo %>
+                      </td>
+                      <td>
+                        <%= usuario.perfil %>
+                      </td>
+                      <td>
+                        <button onclick="botonveract(<%= usuario.idusuario %>) " type="button"
+                          class="btn btn-success">RESTABLECER</button>
+                      </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+              </table>
+             <!-- EDITAR -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">ACTUALIZAR USUARIO</h1>
+
+                    </div>
+                    <div class="modal-body">
+                      <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                        <form id="myForm">
+                          <label for="dni">ID:</label>
+                          <input type="text" placeholder="Ingrese su ID" id="idusuario" readonly>
+
+                          <label for="dni">DNI:</label>
+                          <input type="text" placeholder="Ingrese su DNI" id="dni" oninput="limitarADigitos(this, 8)"
+                            pattern="[0-9]*">
+
+                          <label for="nombre">Nombre:</label>
+                          <input type="text" placeholder="Ingrese su nombre" id="nombre"
+                            oninput="validarYConvertir(this)">
+
+                          <label for="correo">Correo:</label>
+                          <input type="text" placeholder="Ingrese su correo" id="correo">
+
+
+                          <label for="idperfil">Perfil:</label>
+                          <select id="idperfil">
+                            <option value="1">ADMIN</option>
+                            <option value="2">CAJERO</option>
+                            <option value="3">SUPERVISOR</option>
+                            <option value="4">GERENTE</option>
+                          </select>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" onclick="guardarDatos()">Actualizar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <footer class="sticky-footer bg-white">
+              <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                  <span>Copyright &copy; UNSM 2023</span>
+                </div>
+              </div>
+            </footer>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+        <script>
+          function botoneditar(idusuario) {
+            // Asignar el ID del perfil al campo oculto
+
+            axios.get(`/admin/usuarios/${idusuario}`)
+              .then(function (response) {
+                const respuestadelquery = response.data;
+                if (respuestadelquery) {
+                  document.getElementById('idusuario').value = respuestadelquery.idusuario;
+                  document.getElementById('dni').value = respuestadelquery.dni;
+                  document.getElementById('nombre').value = respuestadelquery.nombre;
+                  document.getElementById('correo').value = respuestadelquery.correo;
+                  document.getElementById('idperfil').value = respuestadelquery.idperfil;
+                }
+              })
+              .catch(function (error) {
+                console.error(error);
+              });
+          }
+
+
+          function guardarDatos() {
+            // Obtén el valor del campo de entrada
+            // Obtener los valores de los campos de entrada
+            const idusuario = document.getElementById('idusuario').value;
+            const dni = document.getElementById('dni').value;
+            const nombre = document.getElementById('nombre').value;
+            const correo = document.getElementById('correo').value;
+            const idperfil = document.getElementById('idperfil').value;
+
+            // Crear un objeto de datos con los valores para usar en los controolers
+            const data = {
+              dni: dni,
+              nombre: nombre,
+              correo: correo,
+              idperfil: idperfil
+            };
+
+
+            axios.put(`/admin/usuarios/${idusuario}`, data)
+              .then(function (response) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Registro exitoso',
+                  text: 'El registro se realizó correctamente.',
+                  timer: 2000,
+                  showConfirmButton: false
+                }).then(function () {
+                  // Después de que el usuario haya visto la notificación, actualiza la página
+                  location.reload(); // Esto recargará la página actual
+                });
+              })
+              .catch(function (error) {
+                console.error(error);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'EL DNI O CORREO YA EXISTE.',
+                  timer: 2000, // Cambia la duración del mensaje si lo deseas
+                  showConfirmButton: false // Oculta el botón "OK"
+                });
+              });
+
+          }
+
+
+          function botoneliminar(idusuario) {
+            // Utiliza SweetAlert2 para mostrar una ventana modal de confirmación
+            Swal.fire({
+              title: '¿Estás seguro?',
+              text: 'Esta acción eliminará el usuario con ID ' + idusuario,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Sí, eliminar',
+              cancelButtonText: 'Cancelar'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // El usuario confirmó la eliminación, realiza la solicitud DELETE con Axios
+                axios.delete(`/admin/usuarios/${idusuario}`)
+                  .then((response) => {
+                    // Si la solicitud DELETE se completa con éxito, puedes manejar la respuesta aquí
+                    console.log('Usuario eliminado con éxito');
+                    // Puedes realizar acciones adicionales, como redirigir a otra página o actualizar la interfaz de usuario
+                    window.location.reload();
+                  })
+                  .catch((error) => {
+                    // Si hay un error en la solicitud DELETE, puedes manejarlo aquí
+                    console.error('Error al eliminar el usuario:', error);
+                    // Puedes mostrar un mensaje de error o realizar otras acciones según sea necesario
+                  });
+              }
+            });
+          }
+
+          function botonveract(idusuario) {
+            // Utiliza SweetAlert2 para mostrar una ventana modal de confirmación
+            Swal.fire({
+              title: '¿Estás seguro?',
+              text: 'Esta acción restablecerá el usuario con ID ' + idusuario,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Sí, restablecer',
+              cancelButtonText: 'Cancelar'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // El usuario confirmó la eliminación, realiza la solicitud DELETE con Axios
+                axios.delete(`/admin/borrausuario/${idusuario}`)
+                  .then((response) => {
+                    // Si la solicitud DELETE se completa con éxito, puedes manejar la respuesta aquí
+                    console.log('Usuario restablecido con éxito');
+                    // Puedes realizar acciones adicionales, como redirigir a otra página o actualizar la interfaz de usuario
+                    window.location.reload();
+                  })
+                  .catch((error) => {
+                    // Si hay un error en la solicitud DELETE, puedes manejarlo aquí
+                    console.error('Error al restablecer usuario:', error);
+                    // Puedes mostrar un mensaje de error o realizar otras acciones según sea necesario
+                  });
+              }
+            });
+          }
+
+
+
+          //PARA BUSCAR EN MI TABLA
+          // Obtener referencia al campo de búsqueda
+          const campoBusqueda = document.getElementById('busqueda');
+
+          // Obtener todas las filas de la tabla
+          const filasTabla = document.querySelectorAll('tbody tr');
+
+          // Agregar un evento de entrada al campo de búsqueda
+          campoBusqueda.addEventListener('input', function () {
+            const consulta = campoBusqueda.value.toLowerCase();
+
+            // Iterar a través de las filas de la tabla y mostrar/ocultar según la consulta
+            filasTabla.forEach(function (fila) {
+              const contenidoFila = fila.textContent.toLowerCase();
+              if (contenidoFila.includes(consulta)) {
+                fila.style.display = 'table-row';
+              } else {
+                fila.style.display = 'none';
+              }
+            });
+          });
+
+          //redirigir una rota con boton
+          function redirigirAUsuario() {
+            // Cambia 'tu_ruta' por la ruta a la que deseas dirigir al usuario
+            window.location.href = '/admin/reguser';
+          }
+
+
+          //PARA LIMITAR A 7 NUMEROS
+          function limitarADigitos(input, maxDigitos) {
+            // Elimina cualquier carácter no numérico
+            input.value = input.value.replace(/[^0-9]/g, '');
+
+            // Limita la longitud a maxDigitos
+            if (input.value.length > maxDigitos) {
+              input.value = input.value.slice(0, maxDigitos);
+            }
+          }
+
+
+          //PARA HACER QUE SEA PURA MAYUSCULA Y SIN NUMEROS
+          function validarYConvertir(input) {
+            // Expresión regular que acepta solo letras y espacios
+            var regex = /^[A-Za-z\s]+$/;
+
+            if (!regex.test(input.value)) {
+              // Si el valor no cumple con la expresión regular, elimina los caracteres no permitidos
+              input.value = input.value.replace(/[^A-Za-z\s]+/, '');
+            }
+
+            // Convierte a mayúsculas
+            input.value = input.value.toUpperCase();
+          }
+
+
+
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+          crossorigin="anonymous"></script>
+      </div>
+      <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+
+  <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="/src/boostrapdiseñoadmin/vendor/jquery/jquery.min.js"></script>
+  <script src="/src/boostrapdiseñoadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="/src/boostrapdiseñoadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="/src/boostrapdiseñoadmin/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

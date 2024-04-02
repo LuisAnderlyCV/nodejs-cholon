@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="shortcut icon" type="image/x-icon" href="/src/views/img/icono.ico">
+	<title>POLLO CHOLON</title>
+	<link rel="stylesheet" type="text/css" href="/src/views/css+/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<style>
+	/* Desactivar el borde azul en el enfoque de los campos de formulario */
+.form-control:focus {
+    border-color: inherit; /* Mantener el color del borde original */
+    box-shadow: none; /* Eliminar cualquier sombra en el enfoque */
+}
+
+</style>
+<body>
+	<img class="wave" src="/src/views/img2/image (1).png">
+	<div class="container">
+		<div class="img">
+			<img src="/src/views/img2/login.png">
+		</div>
+		<div class="login-content">
+			<form method="POST" action="/login">
+				<img src="/src/views/img2/login2.png">
+				<h2 class="title">LOGIN</h2>
+				<span style="color: red;">
+          <%= message %>
+        </span>
+
+           		   <div class="form-floating mt-3">
+					
+					<input name="correo" type="email" class="form-control border-black" id="form-floating-label-disabled-color" placeholder="Correo">
+					<label for="form-floating-label-disabled-color"><i class="fa-solid fa-user fa-flip"></i> Correo Electronico</label>
+				  </div>
+				  <div class="form-floating mt-3">
+					<input name="password" type="password" class="form-control border-black" id="floatingInput" placeholder="Password">
+					<label for="floatingInput"><i class="fa-solid fa-lock fa-flip"></i> Password</label>
+				  </div>
+            	<input type="submit" class="btn" value="Login">
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

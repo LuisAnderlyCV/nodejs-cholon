@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoteles Registrados</title>
+    <style>
+        .hotel {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        .hotel img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hoteles Registrados</h1>
+    <div id="hotels-container">
+        <!-- Los hoteles se cargarán aquí -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Código JavaScript para cargar y mostrar los hoteles
+        axios.get('http://hoteles.spring.informaticapp.com:3666/hoteles')
+            .then(function (response) {
+                const hotels = response.data;
+                const container = document.getElementById('hotels-container');
+                console.log(hotels);
+                hotels.forEach(hotel => {
+                    const element = document.createElement('div');
+                    element.classList.add('hotel');
+                    element.style.borderColor = hotel.colorinterfas;
+                    element.innerHTML = `
+                        <h2>${hotel.nombre}</h2>
+                        <p><strong>Frase:</strong> ${hotel.frase}</p>
+                        <p>${hotel.descripcion}</p>
+                        <p><strong>Confianza:</strong> ${hotel.confianza}</p>
+                        <img src="${hotel.imagenportada}" alt="Portada de ${hotel.nombre}">
+                        <img src="${hotel.imagen1}" alt="Imagen 1 de ${hotel.nombre}">
+                        <img src="${hotel.imagen2}" alt="Imagen 2 de ${hotel.nombre}">
+                        <img src="${hotel.imagen3}" alt="Imagen 3 de ${hotel.nombre}">
+                    `;
+                    container.appendChild(element);
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    </script>
+</body>
+</html>

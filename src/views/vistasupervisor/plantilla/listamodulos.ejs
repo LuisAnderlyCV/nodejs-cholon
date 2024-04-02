@@ -1,0 +1,115 @@
+
+
+<ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: rgb(230, 132, 20);" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+
+        
+        <div style="display: flex; gap: 30px; flex-direction: column;">
+            <div class="sidebar-brand-icon rotate-n-15" style="display: flex; justify-content: center; align-items: center; margin-top: 16px">
+                <a href="/supervisor"><img style="width: 100px;" src="https://www.gifsanimados.org/data/media/532/pollo-imagen-animada-0166.gif" alt="pollo-imagen-animada-0166" /></a>
+            </div>
+            <div class="sidebar-brand-text mx-3"><span style="color: white; font-size: 20px;">GRANJA CHOLON</span> </div>
+        </div>
+    
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0"> 
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        MODULOS
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" onclick="mostrarMensajeModuloEnDesarrollo()" data-toggle="collapse" data-target="#seguridad"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fa-sharp fa-solid fa-shield-halved fa-beat-fade" style="color: white; font-size: 20px;"></i>
+            <span>SEGURIDAD</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#lotes"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fa-solid fa-layer-group fa-beat-fade" style="color: white;font-size: 20px;"></i>
+            <span>LOTES</span>
+        </a>
+        <div id="lotes" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Vistas:</h6>
+                <a class="collapse-item" href="/supervisor/galpon">Galpones</a>
+                <a class="collapse-item" href="/supervisor/prueba">Control Galpon</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#compras"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fa-solid fa-cart-shopping fa-beat-fade" style="color: white; font-size: 20px;"></i>
+            <span>COMPRAS</span>
+        </a>
+        <div id="compras" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Vistas:</h6>
+                <a class="collapse-item" href="/supervisor/proveedores">Proveedores</a>
+                <a class="collapse-item" href="/supervisor/regcompras">Compras</a>
+                <a class="collapse-item" href="/supervisor/visuacompra">Visualizar Compras</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#almacen"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fa-brands fa-dropbox fa-beat-fade" style="color: white; font-size: 20px;"></i>
+            <span>ALMACEN</span>
+        </a>
+        <div id="almacen" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Vistas:</h6>
+                <a class="collapse-item" href="/supervisor/producto">Productos</a>
+                <a class="collapse-item" href="/supervisor/categoria">Categoria</a>
+                <a class="collapse-item" href="/supervisor/unidad">Unidad</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" onclick="mostrarMensajeModuloEnDesarrollo()" href="#" data-toggle="collapse" data-target="#ventas"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fa-solid fa-sack-dollar fa-beat-fade" style="color: white; font-size: 20px;"></i>
+            <span>VENTAS</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" onclick="mostrarMensajeModuloEnDesarrollo()" href="#" data-toggle="collapse" data-target="#reportes"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fa-solid fa-chart-simple fa-beat-fade" style="color: white; font-size: 20px;"></i>
+            <span>REPORTES</span>
+        </a>
+    </li>
+
+    <script>
+        function mostrarMensajeModuloEnDesarrollo() {
+            Swal.fire({
+                                    icon: 'info',
+                                    title: 'MODULO DENEGADO.',
+                                    text: ' No Cuentas con Permisos Necesarios.',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                })
+            // Puedes personalizar el mensaje o utilizar otras formas de notificación según tus necesidades.
+        }
+    </script>
+
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>

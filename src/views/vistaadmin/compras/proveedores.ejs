@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="/src/views/img/icono.ico">
+    <title>PROVEEDORES</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/src/boostrapdiseñoadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/src/boostrapdiseñoadmin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/src/views/css/registrar.css">
+    <link rel="stylesheet" href="/src/views/css/estiloperfiles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <%- include('../plantilla/listamodulos') %>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <%- include('../plantilla/navbar') %>
+                        <!-- End of Topbar -->
+
+                        <div class="container-fluid overflow-auto">
+                            <h1></h1>
+
+                            <div class="row g-3">
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal1">
+                                        AGREGAR PROVEEDOR
+                                    </button>
+                                </div>
+
+                                <!-- BUSCAR -->
+                                <div class="col">
+                                    <input type="text" class="form-control" id="busqueda"
+                                        placeholder="  🔍︎    Buscar proveedor..."
+                                        oninput="this.value = this.value.toUpperCase()">
+                                </div>
+                            </div>
+
+                            <h1>PROVEEDORES EN EL SISTEMA</h1>
+
+                            <!-- TABLA -->
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ID de Proveedor</th>
+                                        <th>RUC</th>
+                                        <th>Nombre de empresa</th>
+                                        <th>Dirección</th>
+                                        <th>Ciudad</th>
+                                        <th>País</th>
+                                        <th>Telefono</th>
+                                        <th>Correo</th>
+                                        <th>Categoria</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% proveedores.forEach(function(proveedor) { %>
+                                        <tr>
+                                            <td>
+                                                <%= proveedor.idproveedor %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.ruc %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.nombre_empresa %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.direccion %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.ciudad %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.pais %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.telefono %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.email %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.nombre_categoria %>
+                                            </td>
+                                            <td>
+                                                <button onclick="botoneditar(<%= proveedor.idproveedor %>)"
+                                                    type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+
+                                                <button onclick="botoneliminar(<%= proveedor.idproveedor %>) "
+                                                    type="button" class="btn btn-danger"><i
+                                                        class="bi bi-trash-fill"></i></button>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                            <h1>PROVEEDORES ELIMINADOS</h1>
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ID de Proveedor</th>
+                                        <th>RUC</th>
+                                        <th>Nombre de empresa</th>
+                                        <th>Dirección</th>
+                                        <th>Ciudad</th>
+                                        <th>País</th>
+                                        <th>Telefono</th>
+                                        <th>Correo</th>
+                                        <th>Categoria</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% proveedoresInactivos.forEach(function(proveedor) { %>
+                                        <tr>
+                                            <td>
+                                                <%= proveedor.idproveedor %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.ruc %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.nombre_empresa %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.direccion %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.ciudad %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.pais %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.telefono %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.email %>
+                                            </td>
+                                            <td>
+                                                <%= proveedor.nombre_categoria %>
+                                            </td>
+                                            <td>
+
+                                                <button onclick="botonveract(<%= proveedor.idproveedor %>) "
+                                                    type="button" class="btn btn-success">RESTABLECER</button>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                            <!-- MODAL PARA AGREGAR PROVEEDOR-->
+                            <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">AGREGAR PROVEEDOR</h1>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                                <form id="myForm">
+                                                    <label for="ruc">BUSCAR CON:</label>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="flexRadioDefault" id="rucradio" checked>
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            RUC
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="flexRadioDefault" id="dniradio">
+                                                        <label class="form-check-label" for="flexRadioDefault2">
+                                                            DNI
+                                                        </label>
+                                                    </div>
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control" id="ruc"
+                                                            oninput="limitarADigitosruc(this)" pattern="[0-9]*">
+                                                        <a class="btn btn-primary" id="buscarprove"
+                                                            style="width: 3em; font-size: 1em;"><i
+                                                                class="bi bi-search"></i></a>
+                                                    </div>
+                                                    <label for="nombre_empresa">Proveedor:</label>
+                                                    <input type="text" placeholder="Ingrese nombre empresa"
+                                                        id="nombre_empresa"
+                                                        oninput="this.value = this.value.toUpperCase()">
+
+                                                    <label for="direccion">Dirección:</label>
+                                                    <input type="text" placeholder="Ingrese dirección" id="direccion"
+                                                        oninput="this.value = this.value.toUpperCase()">
+
+                                                    <label for="ciudad">Ciudad:</label>
+                                                    <input type="text" placeholder="Ingrese ciudad" id="ciudad"
+                                                        oninput="validarYConvertir(this)">
+
+                                                    <label for="pais">País:</label>
+                                                    <input type="text" placeholder="Ingrese país" id="pais"
+                                                        oninput="validarYConvertir(this)">
+
+                                                    <label for="telefono">Telefono:</label>
+                                                    <input type="text" placeholder="Ingrese telefono" id="telefono"
+                                                        oninput="limitarADigitos(this, 9)" pattern="[0-9]*">
+
+                                                    <label for="email">Correo</label>
+                                                    <input type="text" placeholder="Ingrese correo" id="email">
+
+                                                    <label for="nombre_categoria">Categoria:</label>
+                                                    <select id="nombre_categoria">
+                                                        <% categoria.forEach(function(cate) { %>
+                                                            <option value="<%= cate.idcategoria %>">
+                                                                <%= cate.nombre_categoria %>
+                                                            </option>
+                                                            <% }); %>
+                                                    </select>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="postDatos()">Agregar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- MODAL PARA EDITAR-->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">ACTUALIZAR PROVEEDOR
+                                            </h1>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                                <form id="myForm">
+                                                    <label for="idproveedor">ID:</label>
+                                                    <input type="text" placeholder="Ingrese su ID" id="idproveedor"
+                                                        readonly>
+
+                                                    <label for="ruc1">RUC:</label>
+                                                    <input type="text" placeholder="Ingrese su RUC" id="ruc1" readonly
+                                                        oninput="limitarADigitos(this, 11)" pattern="[0-9]*">
+
+                                                    <label for="nombre_empresaimput">Proveedor:</label>
+                                                    <input type="text" placeholder="Ingrese nombre empresa"
+                                                        id="nombre_empresaimput"
+                                                        oninput="this.value = this.value.toUpperCase()">
+
+                                                    <label for="direccion1">Dirección:</label>
+                                                    <input type="text" placeholder="Ingrese dirección" id="direccion1"
+                                                        oninput="this.value = this.value.toUpperCase()">
+
+                                                    <label for="ciudad1">Ciudad:</label>
+                                                    <input type="text" placeholder="Ingrese ciudad" id="ciudad1"
+                                                        oninput="validarYConvertir(this)">
+
+                                                    <label for="pais1">País:</label>
+                                                    <input type="text" placeholder="Ingrese país" id="pais1"
+                                                        oninput="validarYConvertir(this)">
+
+                                                    <label for="telefono1">Telefono:</label>
+                                                    <input type="text" placeholder="Ingrese telefono" id="telefono1"
+                                                        oninput="limitarADigitos(this, 9)" pattern="[0-9]*">
+
+                                                    <label for="email1">Correo</label>
+                                                    <input type="text" placeholder="Ingrese correo" id="email1">
+
+                                                    <label for="nombre_categoria1">Tipo:</label>
+                                                    <select id="nombre_categoria1">
+                                                        <% categoria.forEach(function(cate) { %>
+                                                            <option value="<%= cate.idcategoria %>">
+                                                                <%= cate.nombre_categoria %>
+                                                            </option>
+                                                            <% }); %>
+                                                    </select>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="guardarDatos()">Actualizar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <footer class="sticky-footer bg-white">
+                            <div class="container my-auto">
+                                <div class="copyright text-center my-auto">
+                                    <span>Copyright &copy; UNSM 2023</span>
+                                </div>
+                            </div>
+                        </footer>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+
+                <script>
+
+                    //AGREGAR
+                    function postDatos() {
+
+                        const ruc = document.getElementById('ruc').value;
+                        const nombre_empresa = document.getElementById('nombre_empresa').value;
+                        const direccion = document.getElementById('direccion').value;
+                        const ciudad = document.getElementById('ciudad').value;
+                        const pais = document.getElementById('pais').value;
+                        const telefono = document.getElementById('telefono').value;
+                        const email = document.getElementById('email').value;
+                        const nombre_categoria = document.getElementById('nombre_categoria').value;
+
+                        const data = {
+                            ruc: ruc,
+                            nombre_empresa: nombre_empresa,
+                            direccion: direccion,
+                            ciudad: ciudad,
+                            pais: pais,
+                            telefono: telefono,
+                            email: email,
+                            nombre_categoria: nombre_categoria,
+                        };
+                        axios.post('/admin/proveedores', data)
+                            .then(function (response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Registro exitoso',
+                                    text: 'El Proveedor se realizó correctamente.',
+                                    timer: 2000, 
+                                    showConfirmButton: false 
+                                });
+                                setTimeout(function () {
+                                    window.location.href = '/admin/proveedores';
+                                }, 2000);
+                            })
+
+                    }
+
+                    //EDITAR
+                    function botoneditar(idproveedor) {
+                        axios.get(`/admin/proveedores/${idproveedor}`)
+                            .then(function (response) {
+                                const respuestadelquery = response.data;
+                                if (respuestadelquery) {
+                                    console.log(respuestadelquery); 
+                                    document.getElementById('idproveedor').value = respuestadelquery.idproveedor;
+                                    document.getElementById('nombre_empresaimput').value = respuestadelquery.nombre_empresa;
+                                    document.getElementById('ruc1').value = respuestadelquery.ruc;
+                                    document.getElementById('direccion1').value = respuestadelquery.direccion;
+                                    document.getElementById('ciudad1').value = respuestadelquery.ciudad;
+                                    document.getElementById('pais1').value = respuestadelquery.pais;
+                                    document.getElementById('telefono1').value = respuestadelquery.telefono;
+                                    document.getElementById('email1').value = respuestadelquery.email;
+                                    document.getElementById('nombre_categoria1').value = respuestadelquery.idcategoria;
+                                }
+                            })
+                            .catch(function (error) {
+                                console.error(error);
+                            });
+                    }
+
+                    //GUARDAR CAMBIO
+                    function guardarDatos() {
+
+                        const idproveedor = document.getElementById('idproveedor').value;
+                        const nombre_empresa1 = document.getElementById('nombre_empresaimput').value;
+                        const direccion1 = document.getElementById('direccion1').value;
+                        const ciudad1 = document.getElementById('ciudad1').value;
+                        const pais1 = document.getElementById('pais1').value;
+                        const telefono1 = document.getElementById('telefono1').value;
+                        const email1 = document.getElementById('email1').value;
+                        const nombre_categoria1 = document.getElementById('nombre_categoria1').value;
+
+                        const data = {
+                            nombre_empresa1: nombre_empresa1,
+                            direccion1: direccion1,
+                            ciudad1: ciudad1,
+                            pais1: pais1,
+                            telefono1: telefono1,
+                            email1: email1,
+                            nombre_categoria1: nombre_categoria1,
+                        };
+
+                        console.log(data);
+                        axios.put(`/admin/proveedores/${idproveedor}`, data)
+                            .then(function (response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Registro exitoso',
+                                    text: 'El Proveedor se realizó correctamente.',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }).then(function () {
+                                    location.reload(); 
+                                });
+                            })
+                            .catch(function (error) {
+                                console.error(error);
+                            });
+
+                    }
+                    
+                    //ELIMINAR
+                    function botoneliminar(idproveedor) {
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: 'Esta acción eliminará al Proveedor con ID ' + idproveedor,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Sí, eliminar',
+                            cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                axios.delete(`/admin/proveedores/${idproveedor}`)
+                                    .then((response) => {
+                                       
+                                       console.log('Proveedor eliminado con éxito');
+                                       window.location.reload();
+                                    })
+                                    .catch((error) => {
+                                        console.error('Error al eliminar al Proveedor:', error);
+                                        });
+                            }
+                        });
+                    }
+
+                    //RESTABLECER
+                    function botonveract(idproveedor) {
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: 'Esta acción restablecera al Proveedor con ID ' + idproveedor,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Sí, restablecer',
+                            cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                axios.delete(`/admin/borraproveedor/${idproveedor}`)
+                                    .then((response) => {
+                                         console.log('Proveedor restablecido con éxito');
+                                         window.location.reload();
+                                    })
+                                    .catch((error) => {
+                                       
+                                        console.error('Error al restablecer Proveedor:', error);
+                                     });
+                            }
+                        });
+                    }
+
+
+                    //------------ESTO ES PARA ELEGIR QUE TIPO DE DOCUMENTO
+                    // LIMITAR NUMERO
+                    function limitarADigitosruc(input) {
+                        var maxLength = 11; // Default for RUC
+                        if (document.getElementById("dniradio").checked) {
+                            maxLength = 8; // DNI
+                        }
+                        input.value = input.value.slice(0, maxLength);
+                    }
+
+                    // 
+                    document.getElementById("rucradio").addEventListener("change", function () {
+                        limitarADigitos(document.getElementById("ruc"));
+                        if (this.checked) {
+                            handleRUC();
+                        }
+                        document.getElementById('ruc').value = "";
+                    });
+
+                    document.getElementById("dniradio").addEventListener("change", function () {
+                        limitarADigitos(document.getElementById("ruc"));
+                        if (this.checked) {
+                            handleDNI();
+                        }
+                        document.getElementById('ruc').value = "";
+                    });
+
+                    // RUC selection
+                    function handleRUC() {
+                        alert("Selected RUC");
+                    }
+
+                    // DNI selection
+                    function handleDNI() {
+                        alert("Selected DNI");
+                    }
+
+                    //------------------------------------------------------
+
+
+                    // CONSULTA A LA API DE SUNAT
+                    const botonproveedor = document.getElementById("buscarprove");
+
+                    // Asignar el evento click al botón
+                    botonproveedor.addEventListener("click", () => {
+                        if (document.getElementById("rucradio").checked) {
+                            obtenerDatosProveedor();
+                        }
+                        else {
+                            obtenerDatosProveedordni();
+                        }
+
+                    });
+
+                    async function obtenerDatosProveedor() {
+                        const rucProveedor = document.getElementById("ruc").value;
+                        const nombreInput = document.getElementById("nombre_empresa");
+                        const direccionInput = document.getElementById('direccion');
+                        const ciudadInput = document.getElementById('ciudad');
+
+                        if (rucProveedor.length === 11) {
+                            const apiUrl = `https://dniruc.apisperu.com/api/v1/ruc/${rucProveedor}?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImhsZmVybmFuZGV6ckBhbHVtbm8udW5zbS5lZHUucGUifQ.lJpdzo238Z3HdZVTfwqp46EAT08Q_V9MLCiTBUy__O4`;
+
+                            try {
+                                const response = await fetch(apiUrl);
+                                const data = await response.json();
+                                console.log(data);
+                                const nombreProveedorxml = data.razonSocial;
+                                const direccionxml = data.direccion;
+                                const distritoxml = data.distrito;
+
+                                nombreInput.value = nombreProveedorxml;
+                                direccionInput.value = direccionxml;
+                                ciudadInput.value = distritoxml;
+
+                                console.log(data);
+                            } catch (error) {
+                                console.log("Error:", error);
+                            }
+                        } else if (rucProveedor.length <= 10) {
+                            nombreInput.value = "";
+                            direccionInput.value = "";
+                            ciudadInput.value = "";
+                        }
+                    }
+
+                    async function obtenerDatosProveedordni() {
+                        const rucProveedor = document.getElementById("ruc").value;
+                        const nombreInput = document.getElementById("nombre_empresa");
+                        const direccionInput = document.getElementById('direccion');
+                        const ciudadInput = document.getElementById('ciudad');
+
+                        if (rucProveedor.length === 8) {
+                            const apiUrl = `https://dniruc.apisperu.com/api/v1/dni/${rucProveedor}?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImhsZmVybmFuZGV6ckBhbHVtbm8udW5zbS5lZHUucGUifQ.lJpdzo238Z3HdZVTfwqp46EAT08Q_V9MLCiTBUy__O4`;
+
+                            try {
+                                const response = await fetch(apiUrl);
+                                const data = await response.json();
+                                console.log(data);
+                                const nombreProveedorxml = data.nombres + " " + data.apellidoPaterno + " " + data.apellidoMaterno;
+                                
+
+                                nombreInput.value = nombreProveedorxml;
+                                direccionInput.value = "";
+                                ciudadInput.value = "";
+
+                                console.log(data);
+                            } catch (error) {
+                                console.log("Error:", error);
+                            }
+                        } else if (rucProveedor.length <= 10) {
+                            nombreInput.value = "";
+                            direccionInput.value = "";
+                            ciudadInput.value = "";
+                        }
+                    }
+
+                    //BUSCAR
+                    const campoBusqueda = document.getElementById('busqueda');
+                    const filasTabla = document.querySelectorAll('tbody tr');
+
+                    campoBusqueda.addEventListener('input', function () {
+                        const consulta = campoBusqueda.value.toLowerCase();
+                        filasTabla.forEach(function (fila) {
+                            const contenidoFila = fila.textContent.toLowerCase();
+                            if (contenidoFila.includes(consulta)) {
+                                fila.style.display = 'table-row';
+                            } else {
+                                fila.style.display = 'none';
+                            }
+                        });
+                    });
+
+                    //PARA LIMITAR A 7 NUMEROS
+                    function limitarADigitos(input, maxDigitos) {
+                        input.value = input.value.replace(/[^0-9]/g, '');
+                        if (input.value.length > maxDigitos) {
+                            input.value = input.value.slice(0, maxDigitos);
+                        }
+                    }
+
+                    //MAYUSCULA Y SIN NUMEROS
+                    function validarYConvertir(input) {
+                        var regex = /^[A-Za-z\s]+$/;
+
+                        if (!regex.test(input.value)) {
+                             input.value = input.value.replace(/[^A-Za-z\s]+/, '');
+                        }
+                        input.value = input.value.toUpperCase();
+                    }
+
+
+                </script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+                    crossorigin="anonymous"></script>
+            </div>
+            <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+
+    <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery/jquery.min.js"></script>
+    <script src="/src/boostrapdiseñoadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/src/boostrapdiseñoadmin/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

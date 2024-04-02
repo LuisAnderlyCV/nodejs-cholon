@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="/src/views/img/icono.ico">
+    <title>COMPRAS</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/src/boostrapdiseñoadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/src/boostrapdiseñoadmin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/src/views/css/registrar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <%- include('../plantilla/listamodulos') %>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <%- include('../plantilla/navbar') %>
+                        <!-- End of Topbar -->
+
+                        <!-- ACA DEBEMOS COPIAR LAS TABLAS O REGISTROS PARTE BLANCA -->
+                        <div class="container-fluid">
+                            <form class="row g-3">
+                                <div class="col-md-4">
+                                    <!--campo invisible para guaradr el id -->
+                                    <input type="hidden" id="idproveedor">
+                                    <input type="hidden" id="idusuario">
+                                    <input type="hidden" id="idcategoria">
+                                    <!------------------------------------- -->
+                                    <label for="inputEmail4" class="form-label">RUC:</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Ingrese su RUC" id="ruc">
+                                        <a class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal1" id="buscarprove"
+                                            style="width: 3em; font-size: 1em;"><i class="bi bi-search"></i></a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputPassword4" class="form-label">PROVEEDOR:</label>
+                                    <input type="text" class="form-control" id="nombreproveedor">
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="idfecha" class="form-label">FECHA:</label>
+                                    <input type="date" class="form-control" id="idfecha">
+                                </div>                                
+                                <div class="col-md-2">
+                                    <label for="idhora" class="form-label">HORA:</label>
+                                    <input type="text" class="form-control" id="idhora" readonly>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="inputAddress" class="form-label">SERIE:</label>
+                                    <input type="text" class="form-control" id="idserie">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputAddress2" class="form-label">NUMERO CORRELATIVO:</label>
+                                    <input type="text" class="form-control" id="idcorrelativo">
+                                </div>
+                            </form>
+                            <form id="formulario" class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="input-group mb-3">
+                                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                            id="buscarprove">SELECCIONAR PRODUCTO..   <i class="bi bi-search"></i></a>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h3>Lista de Productos</h3>
+                                    <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Categoría</th>
+                                                <th scope="col">Descripcion</th>
+                                                <th scope="col">Unidad</th>
+                                                <th scope="col">Precio</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Subtotal</th>
+                                                <th scope="col">Acciones</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="cuerpoTablaProductos"></tbody>
+                                    </table>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label for="inputCity" class="form-label">SUBTOTAL:</label>
+                                    <input type="text" class="form-control" id="idtotal" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputState" class="form-label">IGV:</label>
+                                    <input type="text" class="form-control" id="idigv">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputZip" class="form-label">TOTAL:</label>
+                                    <input type="text" class="form-control" id="idtotal1" readonly>
+                                </div>
+                                <div class="col-12">
+                                </div>
+                                <div class="col-12">
+                                    <button onclick="enviarLista()" type="button" class="btn btn-primary">REGISTRAR LA
+                                        COMPRA</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- MODAL PARA AGREGAR PROVEEDOR-->
+                        <div class="modal fade " id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">SELECCIONAR PROVEEDOR</h1>
+
+                                    </div>
+                                    <div class="modal-body ">
+                                        <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                            <div class="row g-3">
+                                                <div class="col">
+                                                    <a href="/supervisor/proveedores" class="btn btn-primary" role="button">
+                                                        AGREGAR PROVEEDOR
+                                                    </a>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" class="form-control" id="busqueda"
+                                                        placeholder="  🔍︎    Buscar Proveedor..."
+                                                        oninput="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+
+
+                                            <h1>PROVEEDORES EN EL SISTEMA</h1>
+                                            <div class="table-responsive">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>RUC</th>
+                                                        <th>Nombre de empresa</th>
+                                                        <th>Dirección</th>
+                                                        <th>Ciudad</th>
+                                                        <th>País</th>
+                                                        <th>Telefono</th>
+                                                        <th>Categoria</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% proveedores.forEach(function(proveedor) { %>
+                                                        <tr>
+                                                            <td>
+                                                                <%= proveedor.ruc %>
+                                                            </td>
+                                                            <td>
+                                                                <%= proveedor.nombre_empresa %>
+                                                            </td>
+                                                            <td>
+                                                                <%= proveedor.direccion %>
+                                                            </td>
+                                                            <td>
+                                                                <%= proveedor.ciudad %>
+                                                            </td>
+                                                            <td>
+                                                                <%= proveedor.pais %>
+                                                            </td>
+                                                            <td>
+                                                                <%= proveedor.telefono %>
+                                                            </td>
+                                                            <td>
+                                                                <%= proveedor.nombre_categoria %>
+                                                            </td>
+                                                            <td>
+                                                                <button
+                                                                    onclick="Selecionar(<%= proveedor.idproveedor %>,'<%= proveedor.ruc %>','<%= proveedor.nombre_empresa %>','<%= proveedor.nombre_categoria %>') "
+                                                                    type="button" class="btn btn-success"
+                                                                    data-bs-dismiss="modal">Seleccionar</button>
+                                                            </td>
+                                                        </tr>
+                                                        <% }); %>
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MODAL PARA AGREGAR PROVEEDOR-->
+                        <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">SELECCIONAR PRODUCTO</h1>
+
+                                    </div>
+                                    <div class="modal-body ">
+                                        <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                            <div class="row g-3">
+                                                <div class="col">
+                                                    <a href="/supervisor/producto" class="btn btn-primary" role="button">
+                                                        AGREGAR PRODUCTO
+                                                    </a>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" class="form-control" id="busqueda1"
+                                                        placeholder="  🔍︎    Buscar Producto..."
+                                                        oninput="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+
+
+                                            <h1>PRODUCTOS EN EL SISTEMA</h1>
+                                            <div class="table-responsive">
+                                            <table class="table table-striped table-bordered" id="tablaProductos">
+                                                <thead>
+                                                    <tr>
+                                                        <th>CODIGO DE PRODUCTO</th>
+                                                        <th>NOMBRE DE PRODUCTO</th>
+                                                        <th>DESCRIPCION</th>
+                                                        <th>CATEGORIA</th>
+                                                        <th>UNIDAD</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% productos.forEach(function(productos) { %>
+                                                        <tr>
+                                                            <td>
+                                                                <%= productos.codigo_producto %>
+                                                            </td>
+                                                            <td>
+                                                                <%= productos.nombre_producto %>
+                                                            </td>
+                                                            <td>
+                                                                <%= productos.descripcion %>
+                                                            </td>
+                                                            <td>
+                                                                <%= productos.nombre_categoria %>
+                                                            </td>
+                                                            <td>
+                                                                <%= productos.nombre_unidad %>
+                                                            </td>
+                                                            <td>
+                                                                <button
+                                                                onclick="agregarProducto(<%= productos.idproducto %>,'<%= productos.nombre_producto %>','<%= productos.nombre_categoria %>','<%= productos.descripcion %>','<%= productos.nombre_unidad %>')"
+                                                                type="button" class="btn btn-success"
+                                                                data-bs-dismiss="modal">ELEGIR</button>
+                                                            </td>
+                                                        </tr>
+                                                        <% }); %>
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="sticky-footer bg-white">
+                            <div class="container my-auto">
+                                <div class="copyright text-center my-auto">
+                                    <span>Copyright &copy; UNSM 2023</span>
+                                </div>
+                            </div>
+                        </footer>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+                <script>
+                    var listaProductos = [];
+
+                    function agregarProducto(idproducto, nombre, categoria, descripcion,unidad) {
+                        var producto = {
+                            idproducto: idproducto,
+                            nombre: nombre,
+                            categoria: categoria,
+                            unidad: unidad,
+                            precio: 0,
+                            descripcion:descripcion,
+                            cantidad: 0,
+                            subtotal: 0
+                        };
+
+                        listaProductos.push(producto);
+
+                        actualizarTabla();
+                        actualizarTotal();
+                        actualizarTotal1();
+
+                    }
+
+                    function enviarLista() {
+                        const fecha = document.getElementById('idfecha').value;
+                        const hora = document.getElementById('idhora').value;
+                        const ruc = document.getElementById('ruc').value;
+                        const serie = document.getElementById('idserie').value;
+                        const correlativo = document.getElementById('idcorrelativo').value;
+                        const subtotal = document.getElementById('idtotal').value;
+                        const igv = document.getElementById('idigv').value;
+                        const total = document.getElementById('idtotal1').value;
+                        const idproveedor = document.getElementById('idproveedor').value;
+                        const idusuario = document.getElementById('idusuario').value;
+
+                        const compra = {
+                            fecha: fecha,
+                            hora: hora,
+                            ruc: ruc,
+                            serie: serie,
+                            correlativo: correlativo,
+                            subtotal: subtotal,
+                            igv: igv,
+                            total: total,
+                            idproveedor: idproveedor,
+                            idusuario: idusuario,
+                        };
+
+                        console.log(compra);
+
+                        // 1. Realizar una solicitud de tipo DELETE con axios
+                        axios.patch('/supervisor/sumarcantidad', { productos: listaProductos })
+                            .then(deleteResponse => {
+                                console.log('DELETE response:', deleteResponse.data);
+
+                                // 2. Realizar una solicitud de tipo POST con axios para registrar la compra
+                                return axios.post('/supervisor/regcompras', compra);
+                            })
+                            .then(primerPostResponse => {
+                                console.log('Primer POST response:', primerPostResponse.data);
+
+                                // Obtener el ID de la compra recién registrada
+                                const idCompra = primerPostResponse.data.id_compra;
+
+                                // 3. Actualizar el ID de compra en cada producto de la lista
+                                listaProductos.forEach(producto => {
+                                    producto.id_compra = idCompra;
+                                });
+
+                                // 4. Realizar otra solicitud de tipo POST con axios para registrar la lista de productos
+                                return axios.post('/supervisor/regcompras2', { productos: listaProductos });
+                            })
+                            .then(segundoPostResponse => {
+                                console.log('Segundo POST response:', segundoPostResponse.data);
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Registro Exitoso',
+                                    text: 'La Compra se realizó correctamente.',
+                                    timer: 2000, // Cambia la duración del mensaje si lo deseas
+                                    showConfirmButton: false // Oculta el botón "OK"
+                                });
+
+                                // Redirigir al usuario después de 2 segundos (2000 ms)
+                                setTimeout(function () {
+                                    window.location.href = '/supervisor/regcompras';
+                                }, 2000);
+                            })
+                            .catch(error => {
+                                console.error(error);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'ALGO SALIO MAL CONSULTE ADMIN',
+                                    timer: 2000, // Cambia la duración del mensaje si lo deseas
+                                    showConfirmButton: false // Oculta el botón "OK"
+                                });
+                            });
+
+                    }
+
+                    function actualizarTabla() {
+                        var cuerpoTablaProductos = document.getElementById("cuerpoTablaProductos");
+                        cuerpoTablaProductos.innerHTML = "";
+
+                        listaProductos.forEach(producto => {
+                            var fila = cuerpoTablaProductos.insertRow();
+
+                            var celdaNombre = fila.insertCell(0);
+                            var celdaCategoria = fila.insertCell(1);
+                            var celdaDescripcion = fila.insertCell(2);
+                            var celdaUnidad = fila.insertCell(3);
+                            var celdaPrecio = fila.insertCell(4);
+                            var celdaCantidad = fila.insertCell(5);
+                            var celdaSubtotal = fila.insertCell(6);
+                            var celdaAcciones = fila.insertCell(7);
+
+                            celdaNombre.textContent = producto.nombre;
+                            celdaCategoria.textContent = producto.categoria;
+                            celdaDescripcion.textContent = producto.descripcion;
+                            celdaUnidad.textContent = producto.unidad;
+
+                            var inputPrecio = document.createElement("input");
+                            inputPrecio.type = "text";
+                            inputPrecio.value = producto.precio;
+                            inputPrecio.addEventListener("input", function () {
+                                this.value = this.value.replace(/[^0-9.]/g, '');
+                                producto.precio = parseFloat(this.value) || 0;
+                                producto.subtotal = producto.precio * producto.cantidad;
+                                celdaSubtotal.textContent = producto.subtotal.toFixed(2);
+                                actualizarTotal();
+                                actualizarTotal1();
+                            });
+                            celdaPrecio.appendChild(inputPrecio);
+
+                            var inputCantidad = document.createElement("input");
+                            inputCantidad.type = "text";
+                            inputCantidad.value = producto.cantidad;
+                            inputCantidad.addEventListener("input", function () {
+                                this.value = this.value.replace(/[^0-9]/g, '');
+                                producto.cantidad = parseInt(this.value) || 0;
+                                producto.subtotal = producto.precio * producto.cantidad;
+                                celdaSubtotal.textContent = producto.subtotal.toFixed(2);
+                                actualizarTotal();
+                                actualizarTotal1();
+                            });
+                            celdaCantidad.appendChild(inputCantidad);
+
+                            celdaSubtotal.textContent = producto.subtotal.toFixed(2);
+
+                            var botonQuitar = document.createElement("button");
+                            botonQuitar.textContent = "Quitar";
+                            botonQuitar.onclick = function () {
+                                listaProductos.splice(listaProductos.indexOf(producto), 1);
+                                actualizarTabla();
+                                actualizarTotal();
+                                actualizarTotal1();
+                            };
+                            celdaAcciones.appendChild(botonQuitar);
+
+                        });
+                        console.log(listaProductos);
+                    }
+
+                    function actualizarTotal() {
+                        var total = listaProductos.reduce((sum, producto) => sum + producto.subtotal, 0);
+                        document.getElementById("idtotal").value = total.toFixed(2);
+                        actualizarTotal1(); // Actualizar el total1 cuando cambie el total
+                    }
+
+                    function actualizarTotal1() {
+                        var total1 = parseFloat(document.getElementById("idtotal").value) || 0;
+                        var igv = parseFloat(document.getElementById("idigv").value) || 0;
+                        var total2 = (total1 + total1 * igv);
+                        document.getElementById("idtotal1").value = total2.toFixed(2);
+                    }
+
+                    // Añade este bloque al final de tu script
+                    document.getElementById("idigv").addEventListener("input", function () {
+                        // Eliminar caracteres no permitidos
+                        this.value = this.value.replace(/[^0-9.]/g, '');
+                        actualizarTotal1(); // Actualizar el total1 cuando cambie el IGV
+                    });
+
+                    async function Selecionar(idProveedor, ruc, nombreProveedor, idcategoria) {
+    const apiUrl = `https://worldtimeapi.org/api/timezone/America/Lima`;
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        const fecha = data.datetime.split('T')[0]; // Obtiene la fecha (formato 'YYYY-MM-DD')
+        const hora = data.datetime.split('T')[1].slice(0, 5); // Obtiene la hora (formato 'HH:MM')
+
+        // Muestra la fecha en el campo de entrada con ID 'idfecha' y la hora en 'idhora'
+        document.getElementById('idfecha').setAttribute("max", fecha);
+        document.getElementById('idfecha').value = fecha;
+        document.getElementById('idhora').value = hora;
+    } catch (error) {
+        console.log("Error al obtener la fecha y hora desde la API:", error);
+    }
+
+    // Resto del código para asignar valores a otros campos
+    document.getElementById('ruc').value = ruc;
+    document.getElementById('nombreproveedor').value = nombreProveedor;
+    document.getElementById('idproveedor').value = idProveedor;
+    document.getElementById('idusuario').value = '<%= idusuario %>';
+    document.getElementById('idcategoria').value = idcategoria;
+
+    // Aquí puedes hacer lo que necesites con idProveedor, ruc y nombreProveedor
+    console.log('Proveedor seleccionado - ID:', document.getElementById('idproveedor').value);
+    console.log('Usuario ejecutor - ID:', document.getElementById('idusuario').value);
+    console.log('Proveedor seleccionado - RUC:', ruc);
+    console.log('Proveedor seleccionado - Nombre:', nombreProveedor);
+    console.log('Proveedor seleccionado - Nombre:', document.getElementById('idcategoria').value);
+
+    // También puedes enviar idProveedor, ruc y nombreProveedor al servidor mediante una petición AJAX si es necesario
+    filtrarTabla();
+}
+//IGV 
+// Obtener el campo de entrada por su ID
+const inputIGV = document.getElementById('idigv');
+
+
+
+
+
+
+                    //--------------------------------------------------------------------------------------------------------------
+                    //FILTRAR PRODUCT PPOR CATEGORIA DE PROVEEDOR
+                    function filtrarTabla() {
+                        // Obtén el valor del campo de entrada
+                        var filtro = document.getElementById('idcategoria').value.toUpperCase();
+
+                        // Obtén la tabla y las filas
+                        var tabla = document.getElementById('tablaProductos');
+                        var filas = tabla.getElementsByTagName('tr');
+
+                        // Itera sobre las filas y muestra u oculta según el filtro
+                        for (var i = 0; i < filas.length; i++) {
+                            var celdaCategoria = filas[i].getElementsByTagName('td')[3]; // Índice 4 para la columna de categoría
+                            if (celdaCategoria) {
+                                var textoCategoria = celdaCategoria.textContent || celdaCategoria.innerText;
+
+                                // Compara el texto de la celda con el filtro
+                                if (textoCategoria.toUpperCase().indexOf(filtro) > -1) {
+                                    filas[i].style.display = '';
+                                } else {
+                                    filas[i].style.display = 'none';
+                                }
+                            }
+                        }
+                    }
+                    //PARA BUSCAR EN MI TABLA
+                    // Obtener referencia al campo de búsqueda
+                    // Obtener referencia al campo de búsqueda para proveedores
+                    const campoBusqueda = document.getElementById('busqueda');
+
+                    // Obtener referencia al campo de búsqueda para productos
+                    const campoBusqueda1 = document.getElementById('busqueda1');
+
+                    // Obtener todas las filas de la tabla de proveedores
+                    const filasTablaProveedores = document.querySelectorAll('#exampleModal1 table tbody tr');
+
+                    // Obtener todas las filas de la tabla de productos
+                    const filasTablaProductos = document.querySelectorAll('#exampleModal table tbody tr');
+
+                    // Función para aplicar la búsqueda en la tabla
+                    function aplicarBusqueda(consulta, filasTabla) {
+                        filasTabla.forEach(function (fila) {
+                            const contenidoFila = fila.textContent.toLowerCase();
+                            if (contenidoFila.includes(consulta)) {
+                                fila.style.display = 'table-row';
+                            } else {
+                                fila.style.display = 'none';
+                            }
+                        });
+                    }
+
+                    // Agregar evento de entrada al campo de búsqueda para proveedores
+                    campoBusqueda.addEventListener('input', function () {
+                        const consulta = campoBusqueda.value.toLowerCase();
+                        aplicarBusqueda(consulta, filasTablaProveedores);
+                    });
+
+                    // Agregar evento de entrada al campo de búsqueda para productos
+                    campoBusqueda1.addEventListener('input', function () {
+                        const consulta1 = campoBusqueda1.value.toLowerCase();
+                        aplicarBusqueda(consulta1, filasTablaProductos);
+                    });
+
+
+
+                    //PARA LIMITAR A 7 NUMEROS
+                    function limitarADigitos(input, maxDigitos) {
+                        // Elimina cualquier carácter no numérico
+                        input.value = input.value.replace(/[^0-9]/g, '');
+
+                        // Limita la longitud a maxDigitos
+                        if (input.value.length > maxDigitos) {
+                            input.value = input.value.slice(0, maxDigitos);
+                        }
+                    }
+
+
+                    //PARA HACER QUE SEA PURA MAYUSCULA Y SIN NUMEROS
+                    function validarYConvertir(input) {
+                        // Expresión regular que acepta solo letras y espacios
+                        var regex = /^[A-Za-z\s]+$/;
+
+                        if (!regex.test(input.value)) {
+                            // Si el valor no cumple con la expresión regular, elimina los caracteres no permitidos
+                            input.value = input.value.replace(/[^A-Za-z\s]+/, '');
+                        }
+
+                        // Convierte a mayúsculas
+                        input.value = input.value.toUpperCase();
+                    }
+
+
+
+                </script>
+
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+                    crossorigin="anonymous"></script>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+
+            <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery/jquery.min.js"></script>
+    <script src="/src/boostrapdiseñoadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/src/boostrapdiseñoadmin/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

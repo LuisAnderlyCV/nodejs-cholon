@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="/src/views/img/icono.ico">
+    <title>PRODUCTOS</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/src/boostrapdiseñoadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/src/boostrapdiseñoadmin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/src/views/css/registrar.css">
+    <link rel="stylesheet" href="/src/views/css/estiloperfiles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <%- include('../plantilla/listamodulos') %>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <%- include('../plantilla/navbar') %>
+                        <!-- End of Topbar -->
+
+                        <!-- ACA DEBEMOS COPIAR LAS TABLAS O REGISTROS PARTE BLANCA -->
+                        <div class="container-fluid overflow-auto">
+                            <h1></h1>
+
+                            <div class="row g-3">
+                                <div class="col">
+                                    <button type="button" onclick="probando(<%= JSON.stringify(producto) %>)"
+                                        class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                                        AGREGAR PRODUCTOS
+                                    </button>
+                                    <input type="hidden" id="jsonInput" />
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="busqueda"
+                                        placeholder="  🔍︎    Buscar Producto..."
+                                        oninput="this.value = this.value.toUpperCase()">
+                                </div>
+                            </div>
+
+                            <h1>PRODUCTOS EN EL SISTEMA</h1>
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                      
+                                        <th>Codigo</th>
+                                        <th>Nombre del Producto</th>
+                                        <th>Categoria</th>
+                                        <th>Unidad</th>
+                                        <th>Descripcion</th>
+                                        <th>Stock</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% producto.forEach(function(productos) { %>
+                                        <tr>
+                                            
+                                            <td>
+                                                <%= productos.codigo_producto %>
+                                            </td>
+                                            <td>
+                                                <%= productos.nombre_producto %>
+                                            </td>
+                                            <td>
+                                                <%= productos.nombre_categoria %>
+                                            </td>
+                                            <td>
+                                                <%= productos.nombre_unidad %>
+                                            </td>
+                                            <td>
+                                                <%= productos.descripcion %>
+                                            </td>
+                                            <td>
+                                                <%= productos.stock %>
+                                            </td>
+                                          
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                           
+                            <!-- MODAL PARA AGREGAR CLIENTE-->
+                            <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">AGREGAR PRODUCTOS</h1>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                                <form id="myForm">
+                                                    <label for="codigo_producto">Codigo:</label>
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Ingrese el Codigo" id="codigo_producto"
+                                                            oninput="validarYConvertir2(this)" disabled>
+                                                    </div>
+                                                    <label for="nombre_producto">Nombre del Producto:</label>
+                                                    <input type="text" placeholder="Ingrese el Nombre"
+                                                        id="nombre_producto" oninput="validarYConvertir(this)">
+
+                                                    <label for="nombre_categoria">Categoria:</label>
+                                                    <select id="nombre_categoria"
+                                                        onchange="mostrarSeleccion(<%= JSON.stringify(producto) %>)">
+                                                        <% categoria.forEach(function(cate) { %>
+                                                            <option value="<%= cate.idcategoria %>">
+                                                                <%= cate.nombre_categoria %>
+                                                            </option>
+                                                            <% }); %>
+                                                    </select>
+
+                                                    <label for="nombre_unidad">Unidad:</label>
+                                                    <select id="nombre_unidad">
+                                                        <% unidad.forEach(function(unid) { %>
+                                                            <option value="<%= unid.idunidad %>">
+                                                                <%= unid.nombre_unidad %>
+                                                            </option>
+                                                            <% }); %>
+                                                    </select>
+
+                                                    <label for="descripcion">Descripcion:</label>
+                                                    <input type="text" placeholder="Ingresar Descripcion"
+                                                        id="descripcion" oninput="validarYConvertir1(this)">
+
+                                                    <label for="stock">Stock:</label>
+                                                    <input type="text" placeholder="Stock del Producto" id="stock"
+                                                        readonly>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="postDatos()">Agregar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         
+
+                        </div>
+                        <footer class="sticky-footer bg-white">
+                            <div class="container my-auto">
+                                <div class="copyright text-center my-auto">
+                                    <span>Copyright &copy; UNSM 2023</span>
+                                </div>
+                            </div>
+                        </footer>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+                <script>
+                    function probando(productoJson) {
+                        console.log(productoJson[0].idproducto);
+                        console.log('Mostrando información del producto:');
+                        for (var i = 0; i < productoJson.length; i++) {
+                            console.log('ID Producto:', productoJson[i].codigo_producto);
+                            // Agrega más propiedades según sea necesario
+                        }
+                        mostrarSeleccion(productoJson);
+                    }
+
+                    function mostrarSeleccion(productoJson) {
+                        console.log(productoJson[0].idproducto);
+                        console.log('Mostrando información del producto:');
+
+                        var selectElement = document.getElementById('nombre_categoria');
+                        var selectedValue = selectElement.options[selectElement.selectedIndex].value;
+                        let codigosAlmacenados = [];
+                        // Imprime la variable según la opción seleccionada
+                        // Imprimir la variable según la opción seleccionada
+                        if (selectedValue === '1') {
+                            console.log('Opción 1 seleccionada');
+
+                            for (var i = 0; i < productoJson.length; i++) {
+                                var codigo = productoJson[i].codigo_producto;
+                                // Filtrar por la primera letra del código
+                                var primeraLetra = codigo.charAt(0).toUpperCase(); // Obtener la primera letra en mayúsculas
+                                // Filtrar según la opción seleccionada
+                                if (primeraLetra === 'P') {
+                                    console.log('Imprimir', primeraLetra, codigo);
+                                    codigosAlmacenados.push(codigo);
+                                    // Realizar acciones específicas según el caso
+
+                                }
+                            }
+                            // Inicializar el número
+                            var numeroCodigo = 1;
+
+                            // Buscar un código que no esté en el arreglo
+                            while (codigosAlmacenados.includes("P" + numeroCodigo.toString().padStart(3, "0"))) {
+                                numeroCodigo++;
+                            }
+
+                            // Formatear el nuevo código
+                            var nuevoCodigo = "P" + numeroCodigo.toString().padStart(3, "0");
+                            console.log("CODIGO QUE COTINUA: ", nuevoCodigo);
+                            campocodigo(nuevoCodigo);
+
+
+                        } else if (selectedValue === '2') {
+                            console.log('Opción 2 seleccionada');
+                            for (var i = 0; i < productoJson.length; i++) {
+                                var codigo = productoJson[i].codigo_producto;
+                                // Filtrar por la primera letra del código
+                                var primeraLetra = codigo.charAt(0).toUpperCase(); // Obtener la primera letra en mayúsculas
+                                // Filtrar según la opción seleccionada
+                                if (primeraLetra === 'A') {
+                                    console.log('Imprimir', primeraLetra, codigo);
+                                    codigosAlmacenados.push(codigo);
+                                    // Realizar acciones específicas según el caso
+                                }
+                            }
+                            // Inicializar el número
+                            var numeroCodigo = 1;
+
+                            // Buscar un código que no esté en el arreglo
+                            while (codigosAlmacenados.includes("A" + numeroCodigo.toString().padStart(3, "0"))) {
+                                numeroCodigo++;
+                            }
+
+                            // Formatear el nuevo código
+                            var nuevoCodigo = "A" + numeroCodigo.toString().padStart(3, "0");
+                            console.log("CODIGO QUE COTINUA: ", nuevoCodigo);
+                            campocodigo(nuevoCodigo);
+
+
+                        } else if (selectedValue === '3') {
+                            console.log('Opción 3 seleccionada');
+                            for (var i = 0; i < productoJson.length; i++) {
+                                var codigo = productoJson[i].codigo_producto;
+                                // Filtrar por la primera letra del código
+                                var primeraLetra = codigo.charAt(0).toUpperCase(); // Obtener la primera letra en mayúsculas
+                                // Filtrar según la opción seleccionada
+                                if (primeraLetra === 'M') {
+                                    console.log('Imprimir', primeraLetra, codigo);
+                                    codigosAlmacenados.push(codigo);
+                                    // Realizar acciones específicas según el caso
+                                }
+                            }
+                            // Inicializar el número
+                            var numeroCodigo = 1;
+
+                            // Buscar un código que no esté en el arreglo
+                            while (codigosAlmacenados.includes("M" + numeroCodigo.toString().padStart(3, "0"))) {
+                                numeroCodigo++;
+                            }
+
+                            // Formatear el nuevo código
+                            var nuevoCodigo = "M" + numeroCodigo.toString().padStart(3, "0");
+                            console.log("CODIGO QUE COTINUA: ", nuevoCodigo);
+                            campocodigo(nuevoCodigo);
+
+
+
+                        } else {
+                            console.log('Opción no reconocida');
+                        }
+                        console.log('Códigos almacenados:', codigosAlmacenados);
+                    }
+
+                    function campocodigo(valorcodigo) {
+                        document.getElementById('codigo_producto').value = valorcodigo;
+                    }
+                </script>
+                <script>
+
+
+
+                    function postDatos() {
+                        // Obtener los valores de los campos de entrada
+                        const codigo_producto = document.getElementById('codigo_producto').value;
+                        const nombre_producto = document.getElementById('nombre_producto').value;
+                        const idcategoria = document.getElementById('nombre_categoria').value;
+                        const idunidad = document.getElementById('nombre_unidad').value;
+                        const descripcion = document.getElementById('descripcion').value;
+                        const stock = document.getElementById('stock').value;
+
+                        // Crear un objeto de datos con los valores para usar en los controolers
+                        const data = {
+                            codigo_producto: codigo_producto,
+                            nombre_producto: nombre_producto,
+                            idcategoria: idcategoria,
+                            idunidad: idunidad,
+                            descripcion: descripcion,
+                            stock: stock
+                        };
+                        console.log(data);
+
+                        // Enviar una solicitud POST a la ruta "clientes" utilizando Axios
+                        axios.post('/supervisor/producto', data)
+                            .then(function (response) {
+                                // Mostrar un mensaje de éxito con SweetAlert
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Registro exitoso',
+                                    text: 'El Producto se realizó correctamente.',
+                                    timer: 2000, // Cambia la duración del mensaje si lo deseas
+                                    showConfirmButton: false // Oculta el botón "OK"
+                                });
+
+                                // Redirigir al usuario después de 2 segundos (2000 ms)
+                                setTimeout(function () {
+                                    window.location.href = '/admin/producto';
+                                }, 2000);
+                            })
+
+                    }
+
+                    //PARA HACER QUE SEA PURA MAYUSCULA Y SIN NUMEROS
+                    function validarYConvertir(input) {
+                        // Expresión regular que acepta solo letras y espacios
+                        var regex = /^[A-Za-z\s]+$/;
+
+                        if (!regex.test(input.value)) {
+                            // Si el valor no cumple con la expresión regular, elimina los caracteres no permitidos
+                            input.value = input.value.replace(/[^A-Za-z\s]+/, '');
+                        }
+
+                        // Convierte a mayúsculas
+                        input.value = input.value.toUpperCase();
+                    }
+                    //MAYUSCULA Y NUMERO SIN ESPACIO
+                    function validarYConvertir2(input) {
+                        // Expresión regular que acepta solo letras mayúsculas y números
+                        var regex = /^[A-Z0-9]+$/;
+
+                        // Convierte a mayúsculas y elimina caracteres no permitidos
+                        input.value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                    }
+
+                    //MAYUSCULAS Y NUMERO CON ESPACIO
+                    function validarYConvertir1(input) {
+                        // Expresión regular que acepta solo letras mayúsculas, números y espacios
+                        var regex = /^[A-Z0-9\s]+$/;
+
+                        // Convierte a mayúsculas y elimina caracteres no permitidos
+                        input.value = input.value.toUpperCase().replace(/[^A-Z0-9\s]/g, '');
+                    }
+                    //PARA BUSCAR EN MI TABLA
+                    // Obtener referencia al campo de búsqueda
+                    const campoBusqueda = document.getElementById('busqueda');
+
+                    // Obtener todas las filas de la tabla
+                    const filasTabla = document.querySelectorAll('tbody tr');
+
+                    // Agregar un evento de entrada al campo de búsqueda
+                    campoBusqueda.addEventListener('input', function () {
+                        const consulta = campoBusqueda.value.toLowerCase();
+
+                        // Iterar a través de las filas de la tabla y mostrar/ocultar según la consulta
+                        filasTabla.forEach(function (fila) {
+                            const contenidoFila = fila.textContent.toLowerCase();
+                            if (contenidoFila.includes(consulta)) {
+                                fila.style.display = 'table-row';
+                            } else {
+                                fila.style.display = 'none';
+                            }
+                        });
+                    });
+
+                    //PARA ESCRIBIR PURA MAYUSCULA
+                    //function convertirAMayusculas(input) {
+                    // input.value = input.value.toUpperCase();
+                    //}
+
+
+                </script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+                    crossorigin="anonymous"></script>
+            </div>
+            <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+
+    <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery/jquery.min.js"></script>
+    <script src="/src/boostrapdiseñoadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/src/boostrapdiseñoadmin/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

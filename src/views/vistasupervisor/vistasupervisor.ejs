@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="/src/views/img/icono.ico">
+    <title>PANEL SUPERVISOR</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/src/boostrapdiseñoadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
+    <link href="/src/boostrapdiseñoadmin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <%- include('plantilla/listamodulos') %>
+
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <div id="content">
+
+                    <%- include('plantilla/navbar') %>
+                        <style>
+   body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px; /* Añadido un padding positivo */
+    box-sizing: border-box; /* Evita que el padding afecte el ancho total */
+}
+
+.grafico-titulo {
+    color: #000000eb;
+}
+
+.div-contenedor {
+    flex-direction: column;
+    width: 100%;
+    margin: 10px auto;
+    position: relative;
+}
+
+.grafico-container1 {
+    width: 100%; /* Cambiado a 100% para ocupar todo el ancho en pantallas pequeñas */
+    max-width: 600px; /* Añadido un ancho máximo para pantallas grandes */
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 10px auto;
+    position: relative;
+    top: 10%;
+    transform: translateY(0.5%);
+}
+
+.grafico-container {
+    width: 90%; /* Cambiado a 100% para ocupar todo el ancho en pantallas pequeñas */
+    max-width: 800px; /* Añadido un ancho máximo para pantallas grandes */
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 10px auto;
+}
+
+.grafico-container1 h2 {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.grafico-izquierda {
+    margin-right: 1%;
+    margin-left: 4%; /* Ajustado para ser relativo al ancho del contenedor padre */
+}
+
+.grafico-derecha {
+    margin-left: 4%;
+    margin-right: 1%;
+}
+
+canvas {
+    width: 60%;
+    max-width: 100%; /* Cambiado a 100% para ocupar todo el ancho en pantallas pequeñas */
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+}
+
+.chart-container {
+        text-align: center;
+        margin-top: 20px;
+        overflow-x: auto; /* Agregamos una barra de desplazamiento horizontal si es necesario */
+        white-space: nowrap; /* Evita que los elementos se envuelvan a la siguiente línea */
+    }
+
+    .chart-item {
+        width: 180px; /* Ajusta el ancho según tus preferencias */
+        height: 200px;
+        display: inline-block;
+        margin: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .chart-item:hover {
+        transform: scale(1.05);
+    }
+
+    .chart-info {
+        padding: 15px;
+        text-align: left;
+    }
+
+    .chart-info p {
+        margin: 0;
+        font-size: 14px;
+        color: #333;
+    }
+
+    canvas {
+        width: 80%;
+        height: auto;
+    }
+   /* Estilo para la clase .letra */
+.letra {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    font-size: 15px;
+    font-weight: bold; 
+    color: #2c3e50;
+    margin-bottom: 2px; 
+
+                        </style>
+                                    <div class="col-md-12 grid-margin">
+                                        <div class="card">
+<div style="text-align: center;">
+    <% galpon.forEach(function (galpon) { %>
+        <div style="width: 170px; height: 200px; display: inline-block; margin: 10px;">
+            <div id="chart-data-<%= galpon.idgalpon %>">
+                <p class="letra">GALPON: <%= galpon.nombregalpon %></p>
+            </div>
+            <canvas id="stats-chart-<%= galpon.idgalpon %>" width="200" height="200"></canvas>
+        </div>
+    <% }) %>
+</div>
+                                    </div>
+                                    </div>
+                        <div class="container">
+                            <div class="div-contenedor">
+                                <div class="grafico-container1 grafico-izquierda">
+                                    <h2 class="grafico-titulo">Compras Diarias</h2>
+                                    <canvas id="grafica"></canvas>
+                                </div>
+                                <div class="grafico-container1 grafico-izquierda">
+    <h2 class="grafico-titulo">Ventas Diarias</h2>
+    <canvas id="graficaVentasDiarias"></canvas>
+</div>
+                            </div>
+                            
+                            <div class="grafico-container grafico-derecha">
+                                <h2 class="grafico-titulo">Productos en el Sistema</h2>
+                                <canvas id="grafic"></canvas>
+                            </div>
+                          
+                        </div>
+
+                        <footer class="sticky-footer bg-white">
+                            <div class="container my-auto">
+                                <div class="copyright text-center my-auto">
+                                    <span>Copyright &copy; UNSM 2023</span>
+                                </div>
+                            </div>
+                        </footer>
+                        <!-- End of Footer -->
+
+                </div>
+                <!-- End of Content Wrapper -->
+
+            </div>
+            <!-- End of Page Wrapper -->
+
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <script>
+                //
+                const datosVentasDesdeBD = [
+        <% ventas.forEach(function (venta) { %>
+            { fecha: '<%= venta.fechaventa %>',  total: <%= venta.estadoventa %>, estadoventa: <%= venta.estadoventa %> },
+        <% }) %>
+    ];
+
+    // Obtener el mes y año actual
+    const fechaActualVentas = new Date();
+    const mesActualVentas = fechaActualVentas.getMonth() + 1;
+    const anioActualVentas = fechaActualVentas.getFullYear();
+
+    // Filtrar las ventas para el mes actual
+    const ventasMesActual = datosVentasDesdeBD.filter(venta => {
+        const fechaVenta = new Date(venta.fecha);
+        return fechaVenta.getMonth() + 1 === mesActualVentas && fechaVenta.getFullYear() === anioActualVentas;
+    });
+
+    // Agrupar datos por día
+    const agruparDatosVentasPorDia = (ventas) => {
+        const datosAgrupadosVentas = {};
+        ventas.forEach(venta => {
+            const fechaVenta = new Date(venta.fecha);
+            const diaKey = fechaVenta.getDate();
+            if (!datosAgrupadosVentas[diaKey]) {
+                datosAgrupadosVentas[diaKey] = { fecha: venta.fecha, total: 0 };
+            }
+            datosAgrupadosVentas[diaKey].total += venta.total;
+        });
+        return Object.keys(datosAgrupadosVentas).map(diaKey => datosAgrupadosVentas[diaKey]);
+    };
+
+    const datosDiariosMesActualVentas = agruparDatosVentasPorDia(ventasMesActual);
+
+    // Configuración del gráfico de ventas
+    const graphVentas = document.querySelector("#graficaVentasDiarias");
+    const backgroundColorVentas = 'rgba(0, 255, 0, 1)';
+    const chartConfigVentas = {
+        type: 'bar',
+        data: {
+            labels: datosDiariosMesActualVentas.map(entry => entry.fecha),
+            datasets: [
+                {
+                    label: `Ventas Realizadas Durante el - ${mesActualVentas}/${anioActualVentas}`,
+                    data: datosDiariosMesActualVentas.map(entry => entry.total),
+                    backgroundColor: backgroundColorVentas,
+                    barPercentage: 0.5 // Ajusta este valor según tus preferencias (0.5 significa el 50% del espacio disponible)
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMin: 0,
+                    suggestedMax: 15,
+                    ticks: {
+                        stepSize: 3,
+                        callback: value => `${value.toFixed(2)}`
+                    },
+                    title: {
+                        display: true,
+                        text: 'Total de Ventas',
+                        font: {
+                            size: 17,
+                            weight: 'bold'
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    new Chart(graphVentas, chartConfigVentas);
+                //
+                const datosDesdeBD = [
+    <% compras.forEach(function (compra) { %>
+        { fecha: '<%= compra.fecha_compra %>', total: <%= compra.estado_compra %>, estado_compra: <%= compra.estado_compra %> },
+    <% }) %>
+];
+const comprasNormales = datosDesdeBD.filter(compra => compra.estado_compra === 1);
+// Obtener el mes y año actual
+const fechaActual = new Date();
+const mesActual = fechaActual.getMonth() + 1;
+const anioActual = fechaActual.getFullYear();
+// Filtrar las compras para el mes actual
+const comprasMesActual = comprasNormales.filter(entry => {
+    const fecha = new Date(entry.fecha);
+    return fecha.getMonth() + 1 === mesActual && fecha.getFullYear() === anioActual;
+});
+// Agrupar datos por día
+const agruparDatosPorDia = (compras) => {
+    const datosAgrupados = {};
+    compras.forEach(entry => {
+        const fecha = new Date(entry.fecha);
+        const diaKey = fecha.getDate();
+        if (!datosAgrupados[diaKey]) {
+            datosAgrupados[diaKey] = { fecha: entry.fecha, total: 0 };
+        }
+        datosAgrupados[diaKey].total += entry.total;
+    });
+    return Object.keys(datosAgrupados).map(diaKey => datosAgrupados[diaKey]);
+};
+const datosDiariosMesActual = agruparDatosPorDia(comprasMesActual);
+// Configuración del gráfico
+const graph = document.querySelector("#grafica");
+const backgroundColorNormal = 'rgba(0, 0, 255, 1)';
+const chartConfig = {
+    type: 'bar',
+    data: {
+        labels: datosDiariosMesActual.map(entry => entry.fecha),
+        datasets: [
+            {
+                label: `Compras Realizadas Durante el - ${mesActual}/${anioActual}`,
+                data: datosDiariosMesActual.map(entry => entry.total),
+                backgroundColor: backgroundColorNormal,
+                barPercentage: 0.5 // Ajusta este valor según tus preferencias (0.5 significa el 50% del espacio disponible)
+
+            }
+        ]
+    },
+    options: {
+    scales: {
+        y: {
+            beginAtZero: true,
+            suggestedMin: 0, 
+            suggestedMax: 15, 
+            ticks: {
+                stepSize: 3,   
+                callback: value => `${value.toFixed(2)}` 
+            },
+            title: {
+                display: true,
+                text: 'Total de Compras',
+                font: {
+                    size: 17,
+                    weight: 'bold'
+                }
+            }
+        }
+    }
+}
+
+};
+new Chart(graph, chartConfig);
+//
+
+
+
+                //
+                const graph1 = document.querySelector("#grafic");
+
+// Supongamos que estás pasando estos datos al frontend desde el servidor
+const datosDesdeBD1 = [ 
+    <% detallecompra.forEach(function (detallecompra) { %>
+        { nombre_producto: '<%= detallecompra.nombre_producto %>', total: <%= detallecompra.cantidad %>, nombre_categoria: '<%= detallecompra.nombre_categoria %>' },
+    <% }) %>
+];
+
+function generarColorAleatorio() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+function inicializarGrafico() {
+    try {
+        // Agrupar datos por categoría
+        const categoriasUnicas = [...new Set(datosDesdeBD1.map(dato => dato.nombre_categoria))];
+        const datosPorCategoria = categoriasUnicas.map(categoria => {
+            const datosCategoria = datosDesdeBD1.filter(dato => dato.nombre_categoria === categoria);
+            const totalPorCategoria = datosCategoria.reduce((acc, dato) => acc + dato.total, 0);
+            return { categoria, total: totalPorCategoria };
+        });
+
+        // Preparar datos para el gráfico
+        const labels = datosPorCategoria.map(dato => dato.categoria); 
+        const data = {
+            labels: labels,
+            datasets: [{
+                data: datosPorCategoria.map(dato => dato.total),
+                backgroundColor: labels.map(() => generarColorAleatorio())
+            }]
+        };
+
+        // Configurar y mostrar el gráfico
+        const config = {
+            type: 'pie',
+            data: data,
+        };
+
+        new Chart(graph1, config);
+    } catch (error) {
+        console.error("Error al inicializar el gráfico:", error);
+    }
+}
+inicializarGrafico();
+//
+document.addEventListener('DOMContentLoaded', function () {
+    // Datos desde la base de datos
+    const datosDesdeBD = [
+        <% galpon.forEach(function (galpon) { %>
+            { idgalpon: '<%= galpon.idgalpon %>', galpon: '<%= galpon.nombre_producto %>', total: <%= galpon.cantidadpollo %> },
+        <% }) %>
+    ];
+
+    // Crear un gráfico para cada idgalpon
+    datosDesdeBD.forEach(function (dato) {
+        const canvasId = `stats-chart-${dato.idgalpon}`;
+        const chartConfig = createChartConfig(dato);
+        renderChart(canvasId, chartConfig);
+        mostrarPorcentajeEnElCentro(dato.total, canvasId);
+    });
+});
+
+function createChartConfig(data) {
+    const maxTotal = 1500;
+
+    const filledPercentage = (data.total / maxTotal) * 100;
+    const emptyPercentage = 100 - filledPercentage;
+
+    const randomColor = getRandomColor();
+
+    const datasets = [
+        {
+            data: [filledPercentage, emptyPercentage],
+            backgroundColor: [randomColor, 'rgba(0, 0, 0, 0.1)'], 
+            label: `POLLO ${data.galpon}`,
+        },
+    ];
+
+    return {
+        type: 'doughnut',
+        data: {
+            datasets: datasets,
+        },
+        options: {
+            cutout: '85%',
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `POLLO ${data.galpon}: ${data.total} de ${maxTotal}`;
+                        },
+                    },
+                },
+            },
+            animation: {
+                onComplete: function (animation) {
+                    mostrarPorcentajeEnElCentro(data.total, `stats-chart-${data.idgalpon}`);
+                },
+            },
+        },
+    };
+}
+
+function renderChart(canvasId, config) {
+    const canvas = document.getElementById(canvasId);
+
+    if (!canvas) {
+        console.error(`Canvas with ID '${canvasId}' not found.`);
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    new Chart(ctx, config);
+}
+
+function mostrarPorcentajeEnElCentro(total, canvasId) {
+    const canvas = document.getElementById(canvasId);
+
+    if (!canvas) {
+        console.error(`Canvas with ID '${canvasId}' not found.`);
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+
+    ctx.fillStyle = "#000"; // Puedes ajustar el color según tus preferencias
+    ctx.font = "15px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    const porcentaje = ((total / 1500) * 100).toFixed(2);
+    ctx.fillText(`${porcentaje}%`, canvasWidth / 2, canvasHeight / 2);
+}
+
+// Función para generar un color aleatorio hexadecimal
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+            </script>
+
+            <!-- Bootstrap core JavaScript-->
+            <script src="/src/boostrapdiseñoadmin/vendor/jquery/jquery.min.js"></script>
+            <script src="/src/boostrapdiseñoadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+            <!-- Core plugin JavaScript-->
+            <script src="/src/boostrapdiseñoadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="/src/boostrapdiseñoadmin/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

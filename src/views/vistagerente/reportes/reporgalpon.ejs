@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>REPORTES
+  </title>
+  <link rel="shortcut icon" type="image/x-icon" href="/src/views/img/icono.ico">
+  <!-- Custom fonts for this template-->
+  <link href="/src/boostrapdiseñoadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- Custom styles for this template-->
+  <link href="/src/boostrapdiseñoadmin/css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/src/views/css/registrar.css">
+  <link rel="stylesheet" href="/src/views/css/estiloperfiles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+</head>
+
+<body id="page-top">
+  <style>
+   /* Aplica estilos al contenedor padre */
+   .contenedor-flex {
+      display: flex;
+      flex-direction: row; /* Establece la dirección de los elementos en fila */
+    }
+
+    /* Aplica estilos a los elementos canvas */
+    canvas {
+      border: 1px solid #888888;
+      margin: 1px;
+      width: 10px; /* Ajusta el ancho de los canvas según tus necesidades */
+      height: 60px; /* Ajusta la altura de los canvas según tus necesidades */
+    }
+  </style>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <%- include('../plantilla/listamodulos') %>
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+          <!-- Topbar -->
+          <%- include('../plantilla/navbar') %>
+            <!-- End of Topbar -->
+
+            <div class="col-md-12">
+              <div class="input-group mb-3 d-flex justify-content-center">
+                <h2 class="text-center">VISUALIZAR REPORTES</h2>
+              </div>
+            </div>
+            <div class="contenedor-flex">
+  <!-- Agrega un elemento canvas con un ID para renderizar el gráfico -->
+  <canvas id="grafica1" width="1200" height="200"></canvas>
+</div>
+<div class="contenedor-flex">
+  <!-- Agrega un elemento canvas con un ID para renderizar el gráfico -->
+  <canvas id="grafica" width="1200" height="200"></canvas>
+</div>
+            
+            <div class="row justify-content-end">
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="busqueda" placeholder="  🔍︎    Buscar Compra..."
+                  oninput="this.value = this.value.toUpperCase()">
+              </div>
+            </div>
+
+            <!-- ACA DEBEMOS COPIAR LAS TABLAS O REGISTROS PARTE BLANCA -->
+
+            <div class="container-fluid overflow-auto">
+              <h1>GALPON</h1>
+
+              <div class="custom-select-container">
+                <select id="selectOption"
+                  class="custom-select custom-select-sm form-control form-control-sm custom-short-select"
+                  style="width: auto;">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </div>
+              <table id="comprasTable" class="table table-striped table-bordered">
+
+                <div class="col-md-6 text-left">
+                  <button class="btn btn-brown" onclick="exportToExcel()">Exportar a Excel <i
+                      class="bi bi-file-earmark-bar-graph"></i></button>
+                  <button class="btn btn-danger" onclick="exportToPdf()">Exportar a PDF <i
+                      class="bi bi-file-earmark-pdf"></i></button>
+                </div>
+
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>FECHA LLEGADA</th>
+                    <th>GALPON</th>
+                    <th>CANTIDAD</th>
+                    <th>PRODUCTO</th>
+                    <th>MORTALIDAD</th>
+                    <th>DESCRIPCION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%  galpon.forEach(function(controlgalpon) { %>
+                    <tr>
+                      <td>
+                        <%= controlgalpon.idcontrolgalpon %>
+                      </td>
+                      <td>
+                        <%= new Date(controlgalpon.fechallegada).toLocaleDateString('es-ES', { weekday: 'long' ,
+                          year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                      </td>
+                      <td>
+                        <%= controlgalpon.nombregalpon %>
+                      </td>
+                      <td>
+                        <%=controlgalpon.cantidadpollo %>
+                      </td>
+                      <td>
+                        <%= controlgalpon.nombre_producto %>
+                      </td>
+                      <td>
+                        <%= controlgalpon.mortalidadpollos %>
+                      </td>
+                      <td>
+                        <%= controlgalpon.descripcion %>
+                      </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+              </table>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item disabled">
+                    <a class="page-link">Atras</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">Siguiente</a>
+                  </li>
+                </ul>
+              </nav>
+
+              <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                  <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; UNSM 2023</span>
+                  </div>
+                </div>
+              </footer>
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+
+        <!-- End of Footer -->
+
+      </div>
+      <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+  <script>
+    function exportToPdf() {
+      const table = document.getElementById('comprasTable');
+
+      html2canvas(table, {
+        scale: 2,
+        useCORS: true, // Agrega esto para manejar problemas CORS con imágenes
+      }).then(canvas => {
+        const imgData = canvas.toDataURL('image/jpeg', 0.98);
+        const pdf = new jsPDF({
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait'
+        });
+
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('galpon_reporte.pdf');
+      });
+    }
+  </script>
+<script>
+// Primer conjunto de datos
+const datosDesdeBD = [
+  <% galpon.forEach(function (controlgalpon) { %>
+    { 
+      idcontrolgalpon: '<%= controlgalpon.nombregalpon %>',
+      fecha: '<%= controlgalpon.fechallegada %>',
+      total: <%= controlgalpon.cantidadpollo %>,
+      mortalidadpollos: <%= controlgalpon.mortalidadpollos %>, 
+    },
+  <% }) %>
+];
+
+// Filtrar por estadocontrolgalpon = 1
+const comprasNormales = datosDesdeBD.filter(controlgalpon => controlgalpon.estadocontrolgalpon = 1);
+
+// Agrupar por idcontrolgalpon y mesAnio
+const agruparDatosPorMesYControl = (comprasNormales) => {
+  const datosAgrupados = {};
+
+  comprasNormales.forEach(entry => {
+    const fecha = new Date(entry.fecha);
+    const mesAnioKey = `${fecha.getMonth() + 1}-${fecha.getFullYear()}`;
+
+    if (!datosAgrupados[entry.idcontrolgalpon]) {
+      datosAgrupados[entry.idcontrolgalpon] = {
+        color: getRandomColor(), // Asigna un color aleatorio para cada idcontrolgalpon
+        data: {}
+      };
+    }
+
+    if (!datosAgrupados[entry.idcontrolgalpon].data[mesAnioKey]) {
+      datosAgrupados[entry.idcontrolgalpon].data[mesAnioKey] = { total: 0, mortalidadpollos: 0 };
+    }
+
+    datosAgrupados[entry.idcontrolgalpon].data[mesAnioKey].total += entry.total;
+    datosAgrupados[entry.idcontrolgalpon].data[mesAnioKey].mortalidadpollos += entry.mortalidadpollos;
+  });
+
+  return Object.keys(datosAgrupados).map(idcontrolgalpon => ({
+    idcontrolgalpon: idcontrolgalpon,
+    color: datosAgrupados[idcontrolgalpon].color,
+    datosMensuales: Object.keys(datosAgrupados[idcontrolgalpon].data).map(mesAnioKey => ({
+      mesAnio: mesAnioKey,
+      total: datosAgrupados[idcontrolgalpon].data[mesAnioKey].total,
+      mortalidadpollos: datosAgrupados[idcontrolgalpon].data[mesAnioKey].mortalidadpollos
+    }))
+  }));
+};
+
+const datosMensualesPorControl = agruparDatosPorMesYControl(comprasNormales);
+
+const labels = datosMensualesPorControl.map(entry => entry.idcontrolgalpon);
+const graph = document.querySelector("#grafica");
+
+const datasets = datosMensualesPorControl.map(entry => ({
+  label: `Total de Pollos - ${entry.idcontrolgalpon}`,
+  data: entry.datosMensuales.map(data => data.total),
+  borderColor: entry.color, // Usa el color asignado al idcontrolgalpon
+  fill: false
+}));
+
+const mortalidadDatasets = datosMensualesPorControl.map(entry => ({
+  label: `Mortalidad de Pollos - ${entry.idcontrolgalpon}`,
+  data: entry.datosMensuales.map(data => data.mortalidadpollos),
+  borderColor: entry.color, // Usa el color asignado al idcontrolgalpon
+  fill: false
+}));
+
+const chartConfig = {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [...datasets, ...mortalidadDatasets]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+        suggestedMin: 0,
+        suggestedMax: 2000,
+        ticks: {
+          stepSize: 500,
+          callback: value => `${value.toFixed(2)}`
+        },
+        title: {
+          display: true,
+          text: 'Total por Galpon',
+          font: {
+            size: 17,
+            weight: 'bold'
+          }
+        }
+      }
+    }
+  }
+};
+
+new Chart(graph, chartConfig);
+
+// Función para generar colores aleatorios
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+// Segundo conjunto de datos
+const datosDesdeBD1 = [
+  <% galpon.forEach(function (controlgalpon) { %>
+    { 
+      fecha: '<%= controlgalpon.fechallegada %>',
+      total: <%= controlgalpon.cantidadpollo %>,
+      mortalidadpollos: <%= controlgalpon.mortalidadpollos %>,
+      nombregalpon: '<%= controlgalpon.nombregalpon %>'
+    },
+  <% }) %>
+];
+
+const comprasNormales1 = datosDesdeBD1.filter(controlgalpon => controlgalpon.estadocontrolgalpon = 1);
+
+const agruparDatosPorMes1 = (comprasNormales) => {
+  const datosAgrupados = {};
+
+  comprasNormales.forEach(entry => {
+    const fecha = new Date(entry.fecha);
+    const mesAnioKey = `${fecha.getMonth() + 1}-${fecha.getFullYear()}`;
+
+    datosAgrupados[mesAnioKey] = (datosAgrupados[mesAnioKey] || { total: 0, mortalidadpollos: 0 });
+
+    datosAgrupados[mesAnioKey].total += entry.total;
+    datosAgrupados[mesAnioKey].mortalidadpollos += entry.mortalidadpollos;
+  });
+
+  return Object.keys(datosAgrupados).map(mesAnioKey => ({
+    mesAnio: mesAnioKey,
+    total: datosAgrupados[mesAnioKey].total,
+    mortalidadpollos: datosAgrupados[mesAnioKey].mortalidadpollos
+  }));
+};
+
+const datosMensualesNormales = agruparDatosPorMes1(comprasNormales1);
+const labels1 = datosMensualesNormales.map(entry => entry.mesAnio);
+const graph1 = document.querySelector("#grafica1");
+
+const borderColorNormal1 = 'rgba(0, 0, 255, 1)';
+const borderColorMortalidad1 = 'rgba(255, 0, 0, 1)';
+
+const chartConfig1 = {
+  type: 'line',
+  data: {
+    labels: labels1,
+    datasets: [
+      {
+        label: "Total de Pollos Mensuales",
+        data: datosMensualesNormales.map(entry => entry.total),
+        borderColor: borderColorNormal1,
+        fill: false
+      },
+      {
+        label: "Mortalidad de Pollos Mensual",
+        data: datosMensualesNormales.map(entry => entry.mortalidadpollos),
+        borderColor: borderColorMortalidad1,
+        fill: false
+      }
+    ]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+        suggestedMin: 0,
+        suggestedMax: 2000,
+        ticks: {
+          stepSize: 500,
+          callback: value => `${value.toFixed(2)}`
+        },
+        title: {
+          display: true,
+          text: 'Total de Pollos',
+          font: {
+            size: 17,
+            weight: 'bold'
+          }
+        }
+      }
+    }
+  }
+};
+
+new Chart(graph1, chartConfig1);
+
+ </script>
+  <script>
+
+
+    //
+    
+
+
+    //PARA BUSCAR EN MI TABLA
+    // Obtener referencia al campo de búsqueda
+    const campoBusqueda = document.getElementById('busqueda');
+
+    // Obtener todas las filas de la tabla
+    const filasTabla = document.querySelectorAll('tbody tr');
+
+    // Agregar un evento de entrada al campo de búsqueda
+    campoBusqueda.addEventListener('input', function () {
+      const consulta = campoBusqueda.value.toLowerCase();
+
+      // Iterar a través de las filas de la tabla y mostrar/ocultar según la consulta
+      filasTabla.forEach(function (fila) {
+        const contenidoFila = fila.textContent.toLowerCase();
+        if (contenidoFila.includes(consulta)) {
+          fila.style.display = 'table-row';
+        } else {
+          fila.style.display = 'none';
+        }
+      });
+    });
+
+
+    //
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var comprasTable = document.getElementById("comprasTable");
+      var selectOption = document.getElementById("selectOption");
+      var pagination = document.querySelector(".pagination");
+
+      function updateTable() {
+        var itemsPerPage = parseInt(selectOption.value);
+        var rows = comprasTable.tBodies[0].rows;
+        var pageCount = Math.ceil(rows.length / itemsPerPage);
+        showPage(1);
+        updatePagination(pageCount);
+      }
+
+      function showPage(pageNumber) {
+        var itemsPerPage = parseInt(selectOption.value);
+        var rows = comprasTable.tBodies[0].rows;
+
+        for (var i = 0; i < rows.length; i++) {
+          rows[i].style.display = "none";
+        }
+
+        var startIndex = (pageNumber - 1) * itemsPerPage;
+        var endIndex = startIndex + itemsPerPage;
+        for (var i = startIndex; i < endIndex && i < rows.length; i++) {
+          rows[i].style.display = "";
+        }
+
+        currentPage = pageNumber;
+      }
+
+      function updatePagination(pageCount) {
+        pagination.innerHTML = "";
+
+        var previousButton = createPaginationButton("Atras", function () {
+          if (currentPage > 1) {
+            showPage(currentPage - 1);
+          }
+        });
+        pagination.appendChild(previousButton);
+
+        for (var i = 1; i <= pageCount; i++) {
+          var pageButton = createPaginationButton(i, function () {
+            showPage(this.textContent);
+          });
+          pagination.appendChild(pageButton);
+        }
+
+        var nextButton = createPaginationButton("Siguiente", function () {
+          if (currentPage < pageCount) {
+            showPage(currentPage + 1);
+          }
+        });
+        pagination.appendChild(nextButton);
+      }
+
+      function createPaginationButton(text, clickHandler) {
+        var button = document.createElement("li");
+        button.classList.add("page-item");
+        var link = document.createElement("a");
+        link.classList.add("page-link");
+        link.textContent = text;
+        link.href = "#";
+        link.addEventListener("click", clickHandler);
+        button.appendChild(link);
+        return button;
+      }
+
+      updateTable();
+      var currentPage = 1;
+
+      selectOption.addEventListener("change", function () {
+        currentPage = 1;
+        updateTable();
+      });
+    });
+
+    // ESPORTAR A PDF Y EXCEL
+
+
+    function exportToExcel() {
+      const table = document.getElementById('comprasTable');
+      const ws = XLSX.utils.table_to_sheet(table);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      XLSX.writeFile(wb, 'usuarios_reporte.xlsx');
+    }
+
+
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+  <!-- Bootstrap core JavaScript-->
+  <script src="/src/boostrapdiseñoadmin/vendor/jquery/jquery.min.js"></script>
+  <script src="/src/boostrapdiseñoadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="/src/boostrapdiseñoadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="/src/boostrapdiseñoadmin/js/sb-admin-2.min.js"></script>
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
+
+</body>
+
+</html>

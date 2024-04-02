@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="/src/views/img/icono.ico">
+    <title>COMPRAS</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/src/boostrapdiseñoadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Custom styles for this template-->
+    <link href="/src/boostrapdiseñoadmin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/src/views/css/registrar.css">
+    <link rel="stylesheet" href="/src/views/css/estiloperfiles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <%- include('../plantilla/listamodulos') %>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <%- include('../plantilla/navbar') %>
+                        <!-- End of Topbar -->
+
+
+                        <div class="col-md-12">
+                            <div class="input-group mb-3 d-flex justify-content-center">
+                                <h2 class="text-center">VISUALIZAR COMPRAS</h2>
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="busqueda"
+                                    placeholder="  🔍︎    Buscar Compra..."
+                                    oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                        </div>
+                    
+                        <h1>COMPRAS EN EL SISTEMA</h1>
+                        <table id="comprasTable" class="table table-striped table-bordered">
+                            <div class="custom-select-container">
+                                <select id="selectOption"
+                                    class="custom-select custom-select-sm form-control form-control-sm custom-short-select" 
+                                    style="width: auto;">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                            <thead>
+                                <tr>
+                               
+                                    <th>Fecha Compra</th>
+                                    <th>Hora Compra</th>
+                                    <th>Supervisor</th>
+                                    <th>Detalle Compra</th>
+                               
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% compras.forEach(function(compra) { %>
+                                    <tr>
+                                        
+                                        <td>
+                                            <%= new Date(compra.fecha_compra).toLocaleDateString('es-ES', {
+                                                weekday: 'long' , year: 'numeric' , month: 'long' ,
+                                                day: 'numeric' }) %>
+                                        </td>
+                                        <td>
+                                            <%=compra.horacompra_12h %>
+                                        </td>
+                                        <td>
+                                            <%= compra.nombre %>
+                                        </td>
+                                        <td>
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3 d-flex justify-content-center">
+                                                    <!-- ... (otros inputs) ... -->
+                                                    <a class="btn btn-success" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal"
+                                                        data-idcompra="<%= compra.idcompra %>"
+                                                        data-tipo-comprobante="<%= compra.tipo_comprobante %>"
+                                                        data-serie="<%= compra.serie %>"
+                                                        data-numero-correlativo="<%= compra.numero_correlativo %>"
+                                                        data-subtotal="<%= compra.subtotal %>"
+                                                        data-igv="<%= compra.igv %>"
+                                                        data-totalcompra="<%= compra.totalcompra %>"
+                                                        data-nombre-empresa="<%= compra.nombre_empresa %>"
+                                                        style="margin-left: -10%;">
+                                                        Visualizar <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-end">
+                              <li class="page-item disabled">
+                                <a class="page-link">Atras</a>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">Siguiente</a>
+                              </li>
+                            </ul>
+                          </nav>
+
+                          <!-- Modal -->
+                            <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                            <form id="myForm">
+                                                <label for="idcompra">ID:</label>
+                                                <input type="text" placeholder="Ingrese su ID" id="idcompra"
+                                                    readonly>
+                                                    <label for="fecha_compra1">Fecha Compra:</label>
+                                                    <input type="text" placeholder="Ingrese su Fecha"
+                                                        id="fecha_compra1">
+                                                        <label for="horacompra1">Hora Compra:</label>
+                                                        <input type="text" placeholder="Ingrese su Hora"
+                                                            id="horacompra1">
+                                                            <label for="tipo_comprobante1">RUC:</label>
+                                                            <input type="text" placeholder="Ingrese su RUC"
+                                                                id="tipo_comprobante1">
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary"onclick="guardarDatos()">Save changes</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+
+
+                            <!-- MODAL PARA AGREGAR PROVEEDOR-->
+                            <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-body ">
+                                            <div class="right-container" style="padding: 20px; flex-grow: 1;">
+                                                <h2>DETALLE DE LA COMPRA</h2>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered"
+                                                        id="tablaProductos">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>RUC de la Empresa</th>
+                                                                <th>Nombre de la Empresa</th>
+                                                                <th>Serie</th>
+                                                                <th>Numero Correlativo</th>
+                                                                <th>Subtotal</th>
+                                                                <th>IGV</th>
+                                                                <th>Precio Total</th>
+                                                                <th>Producto</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <!-- ... (contenido del modal) ... -->
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><span id="tipoComprobante"></span></td>
+                                                                <td><span id="nombreEmpresa"></span></td>
+                                                                <td><span id="serie"></span></td>
+                                                                <td><span id="numeroCorrelativo"></span></td>
+                                                                <td><span id="subtotal"></span></td>
+                                                                <td><span id="igv"></span></td>
+                                                                <td><span id="totalCompra"></span></td>
+                                                                <td>
+                                                                 
+                                                                    <button type="button" onclick="mostrarTabla()" id="btnVisualizar" class="btn btn-primary">
+                                                                        Información <span class="bi bi-plus-circle"></span>
+                                                                    </button>
+                                                                    
+
+                                                                </td>
+                                                                <!-- ... (resto de las columnas) ... -->
+                                                            </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                                    <div>
+                                                    <h1 id="tituloTabla" class="oculto">DATOS DE PRODUCTO</h1>
+                                                    <table id="tablaPro" border="1" class="oculto">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Producto</th>
+                                                                <th>Categoría</th>
+                                                                <th>Cantidad</th>
+                                                                <th>Precio Unitario</th>
+                                                                <th>Precio Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% productos.forEach(detalle_compras=> { %>
+                                                                <tr>
+                                                                    <td style="display: none;">
+                                                                        <%= detalle_compras.idcompra %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= detalle_compras.nombre_producto %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= detalle_compras.nombre_categoria %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= detalle_compras.cantidad %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= detalle_compras.precio_compra %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= detalle_compras.cantidad * detalle_compras.precio_compra %>
+                                                                    </td>
+                                                                </tr>
+                                                            <% }); %>
+                                                        </tbody>
+                                                    </table>
+                                                    
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="sticky-footer bg-white">
+                                <div class="container my-auto">
+                                    <div class="copyright text-center my-auto">
+                                        <span>Copyright &copy; UNSM 2023</span>
+                                    </div>
+                                </div>
+                            </footer>
+
+                            <script>
+
+
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+
+                                    $('#exampleModal').on('show.bs.modal', function (event) {
+                                        var button = $(event.relatedTarget);
+                                        var idCompra = button.data('idcompra');
+                                        var tipoComprobante = button.data('tipo-comprobante');
+                                        var serie = button.data('serie');
+                                        var numeroCorrelativo = button.data('numero-correlativo');
+                                        var subtotal = button.data('subtotal');
+                                        var igv = button.data('igv');
+                                        var totalCompra = button.data('totalcompra');
+                                        var nombreEmpresa = button.data('nombre-empresa');
+                                        var nombreProducto = button.data('nombre-producto');
+
+
+                                        var modal = $(this);
+                                        modal.find('.modal-body #idcompra').text(idCompra);
+                                        modal.find('.modal-body #tipoComprobante').text(tipoComprobante);
+                                        modal.find('.modal-body #serie').text(serie);
+                                        modal.find('.modal-body #numeroCorrelativo').text(numeroCorrelativo);
+                                        modal.find('.modal-body #subtotal').text(subtotal);
+                                        modal.find('.modal-body #igv').text(igv);
+                                        modal.find('.modal-body #totalCompra').text(totalCompra);
+                                        modal.find('.modal-body #nombreEmpresa').text(nombreEmpresa);
+                                        modal.find('.modal-body #nombreProducto').text(nombreProducto);
+
+                                    });
+                                });
+                                //
+                                function mostrarTabla() {
+    console.log("Botón clicado");  // Para verificar si la función se ejecuta
+    var titulo = document.getElementById("tituloTabla");
+    var tabla = document.getElementById("tablaPro");
+    titulo.classList.toggle("oculto");
+    tabla.classList.toggle("oculto");
+}
+
+
+                                //
+                                function filtrarPorIDCompra(id) {
+    var tbody = document.querySelector("#tablaPro tbody");
+    var filas = tbody.querySelectorAll("tr");
+
+    filas.forEach((fila) => {
+        var celdaIDCompra = fila.querySelector("td:first-child"); // Obtener la primera celda (ID de compra)
+
+        if (celdaIDCompra) {
+            var idCompra = celdaIDCompra.textContent.trim();
+
+            if (idCompra === id.trim()) {
+                fila.style.display = ""; // Mostrar la fila si el ID de compra coincide
+            } else {
+                fila.style.display = "none"; // Ocultar la fila si no coincide
+            }
+        }
+    });
+}
+
+function botonClickeado(event) {
+    var idCompra = event.target.getAttribute('data-idcompra');
+    filtrarPorIDCompra(idCompra);
+}
+
+var botonesVisualizar = document.querySelectorAll('a.btn-success');
+
+botonesVisualizar.forEach((boton) => {
+    boton.addEventListener('click', botonClickeado);
+});
+//PARA BUSCAR EN MI TABLA
+                    // Obtener referencia al campo de búsqueda
+                    const campoBusqueda = document.getElementById('busqueda');
+
+                    // Obtener todas las filas de la tabla
+                    const filasTabla = document.querySelectorAll('tbody tr');
+
+                    // Agregar un evento de entrada al campo de búsqueda
+                    campoBusqueda.addEventListener('input', function () {
+                        const consulta = campoBusqueda.value.toLowerCase();
+
+                        // Iterar a través de las filas de la tabla y mostrar/ocultar según la consulta
+                        filasTabla.forEach(function (fila) {
+                            const contenidoFila = fila.textContent.toLowerCase();
+                            if (contenidoFila.includes(consulta)) {
+                                fila.style.display = 'table-row';
+                            } else {
+                                fila.style.display = 'none';
+                            }
+                        });
+                    });
+
+
+//
+document.addEventListener("DOMContentLoaded", function () {
+    var comprasTable = document.getElementById("comprasTable");
+    var selectOption = document.getElementById("selectOption");
+    var pagination = document.querySelector(".pagination");
+
+    function updateTable() {
+        var itemsPerPage = parseInt(selectOption.value);
+        var rows = comprasTable.tBodies[0].rows;
+        var pageCount = Math.ceil(rows.length / itemsPerPage);
+        showPage(1);
+        updatePagination(pageCount);
+    }
+
+    function showPage(pageNumber) {
+        var itemsPerPage = parseInt(selectOption.value);
+        var rows = comprasTable.tBodies[0].rows;
+
+        for (var i = 0; i < rows.length; i++) {
+            rows[i].style.display = "none";
+        }
+
+        var startIndex = (pageNumber - 1) * itemsPerPage;
+        var endIndex = startIndex + itemsPerPage;
+        for (var i = startIndex; i < endIndex && i < rows.length; i++) {
+            rows[i].style.display = "";
+        }
+
+        currentPage = pageNumber;
+    }
+
+    function updatePagination(pageCount) {
+        pagination.innerHTML = "";
+
+        var previousButton = createPaginationButton("Atras", function () {
+            if (currentPage > 1) {
+                showPage(currentPage - 1);
+            }
+        });
+        pagination.appendChild(previousButton);
+
+        for (var i = 1; i <= pageCount; i++) {
+            var pageButton = createPaginationButton(i, function () {
+                showPage(this.textContent);
+            });
+            pagination.appendChild(pageButton);
+        }
+
+        var nextButton = createPaginationButton("Siguiente", function () {
+            if (currentPage < pageCount) {
+                showPage(currentPage + 1);
+            }
+        });
+        pagination.appendChild(nextButton);
+    }
+
+    function createPaginationButton(text, clickHandler) {
+        var button = document.createElement("li");
+        button.classList.add("page-item");
+        var link = document.createElement("a");
+        link.classList.add("page-link");
+        link.textContent = text;
+        link.href = "#";
+        link.addEventListener("click", clickHandler);
+        button.appendChild(link);
+        return button;
+    }
+
+    updateTable();
+    var currentPage = 1;
+
+    selectOption.addEventListener("change", function () {
+        currentPage = 1;
+        updateTable();
+    });
+});
+                            </script>
+
+
+                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+                                integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+                                crossorigin="anonymous"></script>
+                        </>
+                        <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery/jquery.min.js"></script>
+    <script src="/src/boostrapdiseñoadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/src/boostrapdiseñoadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/src/boostrapdiseñoadmin/js/sb-admin-2.min.js"></script>
+
+    <script src="/src/proyecto/js/jquery-3.1.1.min.js"></script>
+    <script src="/src/proyecto/js/sweetalert2.min.js"></script>
+    <script src="/src/proyecto/js/bootstrap.min.js"></script>
+    <script src="/src/proyecto/js/material.min.js"></script>
+    <script src="/src/proyecto/js/ripples.min.js"></script>
+    <script src="/src/proyecto/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/src/proyecto/js/main.js"></script>
+    
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
+    <script>
+        $.material.init();
+    </script>
+
+</body>
+
+</html>
